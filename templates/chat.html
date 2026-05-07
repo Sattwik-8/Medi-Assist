@@ -307,10 +307,17 @@
     }
     .clear-btn:hover { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
 
-    @media (max-width: 600px) {
-      .bubble { max-width: 88%; }
-      .topbar-right .top-btn { display: none; }
-    }
+@media (max-width: 600px) {
+  .bubble { max-width: 88%; }
+
+  .topbar-right .top-btn:not(.home-btn) {
+    display: none;
+  }
+
+  .topbar-right .home-btn {
+    display: inline-flex;
+  }
+}
   </style>
 </head>
 <body>
@@ -333,7 +340,7 @@
       <option value="bn">🇧🇩 বাংলা</option>
     </select>
     <div class="account-pill" title="{{ user.get('user_email') }}">{{ user.get('user_name') }}</div>
-    <a href="/" class="top-btn">🏠 Home</a>
+    <a href="/" class="top-btn home-btn">🏠 Home</a>
     <a href="/about" class="top-btn">About</a>
     <a href="/logout" class="top-btn logout-btn">Logout</a>
   </div>
