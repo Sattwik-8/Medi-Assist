@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../static/Medi-Assist_2.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MediBot — AI Health Chat · Medi-Assist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    @media (max-width: 768px) {
+  .topbar {
+    padding: 10px 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .account-pill {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .chat-wrap {
+    padding: 16px 12px;
+    gap: 12px;
+  }
+
+  .bubble {
+    max-width: 92%;
+    font-size: 13px;
+  }
+
+  .quick-cards {
+    max-width: 100%;
+  }
+
+  .quick-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .suggestions {
+    padding: 0 12px 8px;
+  }
+
+  .sug-btn {
+    width: 100%;
+  }
+
+  .upload-panel {
+    padding: 10px 12px;
+  }
+
+  .upload-panel input[type="file"],
+  .upload-panel input[type="text"] {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .input-bar {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .input-bar textarea {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .send-btn,
+  .clear-btn {
+    width: 42px;
+    height: 42px;
+  }
+}
+    :root {
+      --blue:    #1a6fc4;
+      --blue-lt: #e8f2fc;
+      --blue-dk: #0e4a8a;
+      --teal:    #0ea99b;
+      --teal-lt: #e2f7f5;
+      --navy:    #0b2545;
+      --slate:   #3a5472;
+      --mist:    #f4f8fc;
+      --white:   #ffffff;
+      --border:  #d6e4f0;
+      --text:    #1e3a52;
+      --muted:   #6b8299;
+      --bot-bg:  #f0f6fb;
+      --user-bg: linear-gradient(135deg, #1a6fc4, #0ea99b);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--mist); color: var(--text); display: flex; flex-direction: column; }
+
+    /* ── Topbar ── */
+    .topbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; z-index: 10;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .bot-avatar {
+      width: 44px; height: 44px; border-radius: 14px;
+      overflow: hidden; border: 2px solid var(--teal);
+      flex-shrink: 0;
+    }
+    .bot-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .bot-name { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy); }
+    .bot-status { font-size: 12px; color: var(--teal); display: flex; align-items: center; gap: 5px; margin-top: 1px; }
+    .status-dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    .topbar-right { display: flex; gap: 8px; align-items: center; }
+    .account-pill {
+      color: var(--navy); background: var(--mist); border: 1px solid var(--border);
+      border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 700;
+      max-width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-btn {
+      color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;
+      padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border);
+      background: white; transition: all 0.2s; cursor: pointer;
+    }
+    .top-btn:hover { color: var(--blue); border-color: var(--blue-lt); background: var(--blue-lt); }
+    .logout-btn:hover { color: #dc2626; border-color: #fecaca; background: #fef2f2; }
+    .lang-select {
+      appearance: none; background: white; border: 1px solid var(--border);
+      border-radius: 8px; padding: 7px 26px 7px 12px; font-size: 13px;
+      color: var(--slate); cursor: pointer; font-family: inherit;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b8299'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+      transition: border-color 0.2s;
+    }
+    .lang-select:focus { outline: none; border-color: var(--teal); }
+
+    /* ── Chat area ── */
+    .chat-wrap {
+      flex: 1; overflow-y: auto; padding: 24px 20px;
+      display: flex; flex-direction: column; gap: 18px;
+      scroll-behavior: smooth;
+    }
+    .chat-wrap::-webkit-scrollbar { width: 4px; }
+    .chat-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* ── Welcome screen ── */
+    .welcome {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 30px 20px;
+      animation: fadeUp 0.5s ease both;
+    }
+    .welcome-logo {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 3px solid var(--teal); overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(14,169,155,0.2);
+    }
+    .welcome-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .welcome h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--navy); margin-bottom: 8px; }
+    .welcome h2 span { color: var(--teal); }
+    .welcome p { font-size: 14px; color: var(--muted); max-width: 360px; line-height: 1.75; font-weight: 300; margin-bottom: 28px; }
+    .quick-cards { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 440px; }
+    .quick-card {
+      background: white; border: 1px solid var(--border); border-radius: 14px;
+      padding: 14px 18px; cursor: pointer; text-align: left;
+      transition: all 0.2s; flex: 1; min-width: 150px; max-width: 200px;
+    }
+    .quick-card:hover { border-color: var(--teal); box-shadow: 0 4px 16px rgba(14,169,155,0.12); transform: translateY(-2px); }
+    .quick-card .qicon { font-size: 22px; margin-bottom: 6px; }
+    .quick-card .qtitle { font-weight: 600; font-size: 13px; color: var(--navy); margin-bottom: 2px; }
+    .quick-card .qdesc { font-size: 12px; color: var(--muted); }
+
+    /* ── Messages ── */
+    .msg-row { display: flex; align-items: flex-end; gap: 10px; animation: fadeUp 0.3s ease both; }
+    .msg-row.user { flex-direction: row-reverse; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    .msg-avatar {
+      width: 34px; height: 34px; border-radius: 12px;
+      flex-shrink: 0; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .msg-avatar.bot { border: 2px solid var(--border); }
+    .msg-avatar.bot img { width: 100%; height: 100%; object-fit: cover; }
+    .msg-avatar.user { background: var(--navy); color: rgba(255,255,255,0.8); font-size: 16px; }
+
+    .bubble {
+      max-width: 65%; padding: 14px 18px; border-radius: 18px;
+      font-size: 14px; line-height: 1.8; white-space: pre-wrap; word-break: break-word;
+    }
+    .bubble.bot {
+      background: white; border: 1px solid var(--border);
+      border-bottom-left-radius: 4px; color: var(--text);
+      box-shadow: 0 2px 12px rgba(26,111,196,0.06);
+    }
+    .bubble.user {
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      border-bottom-right-radius: 4px; color: white;
+    }
+    .bubble.bot strong { color: var(--navy); }
+    .bubble.bot em { color: var(--muted); }
+
+    /* ── Typing indicator ── */
+    .typing-row { display: flex; align-items: flex-end; gap: 10px; }
+    .typing-bubble {
+      background: white; border: 1px solid var(--border);
+      border-radius: 18px; border-bottom-left-radius: 4px;
+      padding: 14px 18px; display: flex; gap: 5px; align-items: center;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); animation: bounce 1.2s infinite; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%,60%,100%{transform:translateY(0);background:var(--border)} 30%{transform:translateY(-6px);background:var(--teal)} }
+
+    /* ── Suggestions row ── */
+    .suggestions {
+      display: none; flex-wrap: wrap; gap: 8px;
+      padding: 0 20px 8px; flex-shrink: 0;
+    }
+    .sug-btn {
+      background: white; border: 1px solid var(--border);
+      border-radius: 20px; padding: 7px 14px; font-size: 12px; font-weight: 500;
+      color: var(--slate); cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
+    }
+    .sug-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-lt); }
+    .upload-panel {
+      background: white; border-bottom: 1px solid var(--border);
+      padding: 10px 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .upload-panel input[type="file"] { font-size: 12px; max-width: 250px; }
+    .upload-panel input[type="text"] {
+      border: 1px solid var(--border); background: var(--mist); border-radius: 8px;
+      padding: 8px 10px; font-family: inherit; font-size: 12px; flex: 1; min-width: 180px;
+    }
+    .upload-btn {
+      background: var(--teal); color: white; border: none; border-radius: 8px;
+      padding: 8px 14px; font-weight: 700; font-size: 12px; cursor: pointer;
+    }
+    .upload-list { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px 8px; background: white; }
+    .upload-chip {
+      color: var(--slate); background: var(--mist); border: 1px solid var(--border);
+      border-radius: 20px; padding: 6px 11px; font-size: 12px; text-decoration: none;
+    }
+
+    /* ── Disclaimer bar ── */
+    .disclaimer-bar {
+      text-align: center; font-size: 11px; color: var(--muted);
+      padding: 5px 20px; flex-shrink: 0;
+      background: white; border-top: 1px solid var(--border);
+    }
+
+    /* ── Input bar ── */
+    .input-bar {
+      padding: 14px 16px; background: white;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0;
+    }
+    .input-bar textarea {
+      flex: 1; background: var(--mist); border: 1px solid var(--border);
+      border-radius: 14px; padding: 12px 16px; color: var(--text);
+      font-family: inherit; font-size: 14px; resize: none;
+      max-height: 120px; line-height: 1.5; transition: border-color 0.2s;
+    }
+    .input-bar textarea:focus { outline: none; border-color: var(--teal); background: white; }
+    .input-bar textarea::placeholder { color: var(--muted); }
+
+    .send-btn {
+      width: 46px; height: 46px; background: var(--teal); border: none;
+      border-radius: 12px; color: white; font-size: 18px; cursor: pointer;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .send-btn:hover { background: #0c9488; transform: scale(1.05); }
+    .send-btn:active { transform: scale(0.95); }
+    .send-btn:disabled { background: var(--border); cursor: default; transform: none; }
+
+    .clear-btn {
+      width: 46px; height: 46px; background: white; border: 1px solid var(--border);
+      border-radius: 12px; color: var(--muted); font-size: 16px; cursor: pointer;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .clear-btn:hover { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+
+    @media (max-width: 600px) {
+      .bubble { max-width: 88%; }
+      .topbar-right .top-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Topbar ── -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="bot-avatar">
+      <img src="../static/Medi-Assist_2.jpg" alt="MediBot">
+    </div>
+    <div>
+      <div class="bot-name">MediBot</div>
+      <div class="bot-status"><div class="status-dot"></div> AI Health Assistant · Online</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <select class="lang-select" id="langSelect" title="Select language">
+      <option value="en">🇬🇧 English</option>
+      <option value="hi">🇮🇳 हिन्दी</option>
+      <option value="bn">🇧🇩 বাংলা</option>
+    </select>
+    <div class="account-pill" title="{{ user.get('user_email') }}">{{ user.get('user_name') }}</div>
+    <a href="/" class="top-btn">🏠 Home</a>
+    <a href="/about" class="top-btn">About</a>
+    <a href="/logout" class="top-btn logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="upload-panel">
+  <input type="file" id="prescriptionFile" accept="image/png,image/jpeg,image/webp,application/pdf">
+  <input type="text" id="prescriptionNote" placeholder="Optional note, e.g. fever medicine prescription">
+  <button class="upload-btn" onclick="uploadPrescription()">Upload Prescription / Photo</button>
+</div>
+<div class="upload-list" id="uploadList"></div>
+
+<!-- ── Chat area ── -->
+<div class="chat-wrap" id="chatWrap">
+  <div class="welcome" id="welcomeScreen">
+    <div class="welcome-logo"><img src="../static/Medi-Assist_2.jpg" alt="Medi-Assist"></div>
+    <h2>Hi! I'm <span>MediBot</span></h2>
+    <p>Describe your symptoms in plain language and I'll analyze them using our AI model. You can also ask about medicines, diet, precautions, and more.</p>
+    <div class="quick-cards">
+      <div class="quick-card" onclick="sendQuick('I have fever, headache and nausea')">
+        <div class="qicon">🤒</div>
+        <div class="qtitle">Fever & Headache</div>
+        <div class="qdesc">Try a sample symptom check</div>
+      </div>
+      <div class="quick-card" onclick="sendQuick('I have chest pain and sweating')">
+        <div class="qicon">💗</div>
+        <div class="qtitle">Chest Pain</div>
+        <div class="qdesc">Cardiac symptom check</div>
+      </div>
+      <div class="quick-card" onclick="sendQuick('I have itching and skin rash')">
+        <div class="qicon">🌿</div>
+        <div class="qtitle">Skin Issues</div>
+        <div class="qdesc">Skin symptom check</div>
+      </div>
+      <div class="quick-card" onclick="sendQuick('help')">
+        <div class="qicon">❓</div>
+        <div class="qtitle">How to Use</div>
+        <div class="qdesc">See what I can do</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Suggestions ── -->
+<div class="suggestions" id="suggestionsRow">
+  <button class="sug-btn" onclick="sendQuick('What medicines should I take?')">💊 Medicines</button>
+  <button class="sug-btn" onclick="sendQuick('What should I eat?')">🥗 Diet</button>
+  <button class="sug-btn" onclick="sendQuick('What precautions should I take?')">⚠️ Precautions</button>
+  <button class="sug-btn" onclick="sendQuick('What exercise is safe?')">🏃 Workout</button>
+  <button class="sug-btn" onclick="sendQuick('Tell me more about this disease')">📄 More Info</button>
+</div>
+
+<!-- ── Disclaimer ── -->
+<div class="disclaimer-bar">⚠️ Informational purposes only. Always consult a qualified doctor for medical decisions.</div>
+
+<!-- ── Input ── -->
+<div class="input-bar">
+  <button class="clear-btn" onclick="clearChat()" title="Clear conversation">🗑️</button>
+  <textarea id="msgInput" rows="1"
+    placeholder="Describe your symptoms… e.g. I have fever, headache and fatigue"
+    onkeydown="handleKey(event)"
+    oninput="autoResize(this)"></textarea>
+  <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send">➤</button>
+</div>
+
+<script>
+  let lastDisease = localStorage.getItem('medi_last_disease') || null;
+  let lastSymptoms = JSON.parse(localStorage.getItem('medi_last_symptoms') || '[]');
+  let lastConfidence = localStorage.getItem('medi_last_confidence') || null;
+  
+
+  function getLang() {
+    return document.getElementById('langSelect').value;
+  }
+
+  function getApiUrl(path) {
+    const host = window.location.hostname;
+    const isLocalHost = host === '127.0.0.1' || host === 'localhost';
+    const isFlaskServer = isLocalHost && window.location.port === '5000';
+
+    if (isFlaskServer || host.endsWith('onrender.com')) {
+      return path;
+    }
+
+    return 'http://127.0.0.1:5000' + path;
+  }
+
+  function fixLocalPreviewLinks() {
+    const host = window.location.hostname;
+    const isLocalHost = host === '127.0.0.1' || host === 'localhost';
+    const isFlaskServer = isLocalHost && window.location.port === '5000';
+    const isLocalPreview = window.location.protocol === 'file:' ||
+      (isLocalHost && window.location.port !== '5000');
+
+    if (!isFlaskServer && isLocalPreview) {
+      document.querySelectorAll('a[href^="/"]').forEach(link => {
+        link.href = 'http://127.0.0.1:5000' + link.getAttribute('href');
+      });
+    }
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function sendQuick(text) {
+    document.getElementById('msgInput').value = text;
+    sendMessage();
+  }
+
+  function saveMemory() {
+    localStorage.setItem('medi_last_disease', lastDisease || '');
+    localStorage.setItem('medi_last_symptoms', JSON.stringify(lastSymptoms || []));
+    localStorage.setItem('medi_last_confidence', lastConfidence || '');
+  }
+
+
+  function renderUpload(upload) {
+    const list = document.getElementById('uploadList');
+    const link = document.createElement('a');
+    link.className = 'upload-chip';
+    link.href = getApiUrl('/prescription/' + upload.id);
+    link.target = '_blank';
+    link.textContent = upload.original_name + (upload.note ? ' - ' + upload.note : '');
+    list.prepend(link);
+  }
+
+
+
+  async function uploadPrescription() {
+    const fileInput = document.getElementById('prescriptionFile');
+    const noteInput = document.getElementById('prescriptionNote');
+    if (!fileInput.files.length) {
+      alert('Please choose a prescription or photo first.');
+      return;
+    }
+
+    const form = new FormData();
+    form.append('file', fileInput.files[0]);
+    form.append('note', noteInput.value.trim());
+
+    try {
+      const res = await fetch(getApiUrl('/upload-prescription'), {
+        method: 'POST',
+        body: form
+      });
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.error || 'Upload failed.');
+        return;
+      }
+
+      renderUpload(data.upload);
+      fileInput.value = '';
+      noteInput.value = '';
+      addMessage('Prescription/photo uploaded: ' + data.upload.original_name, true);
+      addMessage('I saved this file to your account. I cannot read the image yet, but you can tell me what the prescription says or ask a question about it.', false);
+    } catch(e) {
+      alert('Upload failed. Please try again.');
+    }
+  }
+
+  function scrollBottom() {
+    const w = document.getElementById('chatWrap');
+    w.scrollTop = w.scrollHeight;
+  }
+
+  function formatText(text) {
+    text = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    text = text.replace(/\n/g, '<br>');
+    return text;
+  }
+
+  function addMessage(text, isUser) {
+    const welcome = document.getElementById('welcomeScreen');
+    if (welcome) welcome.remove();
+
+    const wrap = document.getElementById('chatWrap');
+    const row = document.createElement('div');
+    row.className = 'msg-row' + (isUser ? ' user' : '');
+
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar ' + (isUser ? 'user' : 'bot');
+    if (isUser) {
+      avatar.textContent = '👤';
+    } else {
+      avatar.innerHTML = '<img src="/static/Medi-Assist_2.jpg" alt="bot">';
+    }
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble ' + (isUser ? 'user' : 'bot');
+    bubble.innerHTML = formatText(text);
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    wrap.appendChild(row);
+    scrollBottom();
+  }
+
+  function showTyping() {
+    const wrap = document.getElementById('chatWrap');
+    const row = document.createElement('div');
+    row.className = 'typing-row'; row.id = 'typingIndicator';
+    row.innerHTML = `
+      <div class="msg-avatar bot"><img src="/static/Medi-Assist_2.jpg" alt="bot"></div>
+      <div class="typing-bubble">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>`;
+    wrap.appendChild(row);
+    scrollBottom();
+  }
+
+  function hideTyping() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    input.style.height = 'auto';
+    document.getElementById('sendBtn').disabled = true;
+
+    addMessage(text, true);
+    showTyping();
+
+    try {
+      const res = await fetch(getApiUrl('/chat-message'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          last_disease: lastDisease,
+          last_symptoms: lastSymptoms,
+          last_confidence: lastConfidence,
+          lang: getLang()
+        })
+      });
+      const data = await res.json();
+      hideTyping();
+      addMessage(data.text, false);
+
+const suggestionRow = document.getElementById('suggestionsRow');
+
+if (data.disease) {
+  lastDisease = data.disease;
+  lastSymptoms = data.symptoms || lastSymptoms;
+  lastConfidence = data.confidence || lastConfidence;
+  saveMemory();
+  suggestionRow.style.display = 'flex';
+} else if (data.type === 'ai' || data.type === 'unknown' || data.type === 'clarify') {
+  lastDisease = null;
+  lastSymptoms = [];
+  lastConfidence = null;
+  saveMemory();
+  suggestionRow.style.display = 'none';
+} else if (data.type === 'greeting' || data.type === 'help' || data.type === 'emergency') {
+  suggestionRow.style.display = 'none';
+}
+    } catch(e) {
+      hideTyping();
+      addMessage('❌ Connection error. Please check your network and try again.', false);
+    }
+
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('msgInput').focus();
+  }
+
+  function clearChat() {
+    lastDisease = null;
+    lastSymptoms = [];
+    lastConfidence = null;
+    localStorage.removeItem('medi_last_disease');
+    localStorage.removeItem('medi_last_symptoms');
+    localStorage.removeItem('medi_last_confidence');
+    localStorage.removeItem('medi_chat_memory');
+    document.getElementById('suggestionsRow').style.display = 'none';
+    const wrap = document.getElementById('chatWrap');
+    wrap.innerHTML = `
+      <div class="welcome" id="welcomeScreen">
+        <div class="welcome-logo"><img src="../static/Medi-Assist_2.jpg" alt="Medi-Assist"></div>
+        <h2>Hi! I'm <span>MediBot</span></h2>
+        <p>Describe your symptoms in plain language and I'll analyze them using our AI model.</p>
+        <div class="quick-cards">
+          <div class="quick-card" onclick="sendQuick('I have fever, headache and nausea')">
+            <div class="qicon">🤒</div><div class="qtitle">Fever & Headache</div><div class="qdesc">Sample symptom check</div>
+          </div>
+          <div class="quick-card" onclick="sendQuick('I have chest pain and sweating')">
+            <div class="qicon">💗</div><div class="qtitle">Chest Pain</div><div class="qdesc">Cardiac check</div>
+          </div>
+          <div class="quick-card" onclick="sendQuick('I have itching and skin rash')">
+            <div class="qicon">🌿</div><div class="qtitle">Skin Issues</div><div class="qdesc">Skin symptom check</div>
+          </div>
+          <div class="quick-card" onclick="sendQuick('help')">
+            <div class="qicon">❓</div><div class="qtitle">How to Use</div><div class="qdesc">See what I can do</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  fixLocalPreviewLinks();
+  document.getElementById('msgInput').focus();
+</script>
+</body>
+</html>

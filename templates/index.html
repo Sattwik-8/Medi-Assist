@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medi-Assist — AI-Powered Health Guidance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../static/Medi-Assist_2.jpg">
+  <style>
+    @media (max-width: 768px) {
+  .hero {
+    padding: 56px 0 44px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary-custom,
+  .btn-outline-custom {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+}
+    :root {
+      --blue:    #1a6fc4;
+      --blue-lt: #e8f2fc;
+      --teal:    #0ea99b;
+      --teal-lt: #e2f7f5;
+      --navy:    #0b2545;
+      --slate:   #3a5472;
+      --mist:    #f4f8fc;
+      --white:   #ffffff;
+      --border:  #d6e4f0;
+      --text:    #1e3a52;
+      --muted:   #6b8299;
+      --green:   #17a34a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: var(--white); }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      padding: 14px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-logo { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--teal); object-fit: cover; }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); letter-spacing: -0.3px; }
+    .brand-name span { color: var(--teal); }
+    .navbar .nav-link { color: var(--slate); font-size: 14px; font-weight: 500; padding: 6px 14px !important; border-radius: 8px; transition: all 0.2s; }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--blue); background: var(--blue-lt); }
+    .nav-cta { background: var(--teal) !important; color: white !important; border-radius: 8px !important; padding: 8px 18px !important; }
+    .nav-cta:hover { background: #0c9488 !important; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 50%, #0b4a6f 100%);
+      padding: 90px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(14,169,155,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(26,111,196,0.2) 0%, transparent 50%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(14,169,155,0.15);
+      border: 1px solid rgba(14,169,155,0.4);
+      color: #4de8d8;
+      padding: 6px 16px; border-radius: 30px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #4de8d8; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 { font-size: clamp(36px, 5vw, 62px); color: #fff; line-height: 1.12; margin-bottom: 22px; }
+    .hero h1 em { font-style: normal; color: #4de8d8; }
+    .hero p { font-size: 17px; color: rgba(255,255,255,0.72); max-width: 520px; line-height: 1.8; margin-bottom: 36px; font-weight: 300; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary-custom {
+      background: var(--teal); color: white; padding: 14px 28px;
+      border-radius: 10px; font-weight: 600; font-size: 15px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary-custom:hover { background: #0c9488; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(14,169,155,0.35); color: white; }
+    .btn-outline-custom {
+      background: transparent; color: white; padding: 14px 28px;
+      border-radius: 10px; font-weight: 500; font-size: 15px;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.3); cursor: pointer;
+      transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-outline-custom:hover { background: rgba(255,255,255,0.08); color: white; }
+    .hero-image-wrap {
+      position: relative; text-align: center;
+      animation: floatUp 0.8s ease both 0.2s;
+    }
+    .hero-image-wrap img {
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 4px solid rgba(14,169,155,0.5);
+      box-shadow: 0 0 60px rgba(14,169,155,0.25), 0 0 120px rgba(26,111,196,0.15);
+      object-fit: cover;
+    }
+    .hero-pill {
+      position: absolute; background: white; border-radius: 14px;
+      padding: 10px 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      font-size: 13px; font-weight: 600; color: var(--navy);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .pill-1 { top: 10%; left: -20px; }
+    .pill-2 { bottom: 10%; right: -20px; }
+    .pill-3 { top: 50%; left: -40px; transform: translateY(-50%); }
+
+    /* Stats bar */
+    .stats-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0;
+    }
+    .stat-item { text-align: center; padding: 0 30px; }
+    .stat-item + .stat-item { border-left: 1px solid var(--border); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1; }
+    .stat-num span { color: var(--teal); }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* How it works */
+    .section { padding: 80px 0; }
+    .section-badge {
+      display: inline-block; background: var(--teal-lt);
+      color: var(--teal); font-size: 12px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .section-title { font-size: clamp(28px, 3vw, 42px); color: var(--navy); margin-bottom: 16px; }
+    .section-sub { font-size: 16px; color: var(--muted); max-width: 520px; line-height: 1.8; font-weight: 300; }
+
+    .step-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px 28px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .step-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .step-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(26,111,196,0.12); }
+    .step-card:hover::before { transform: scaleX(1); }
+    .step-num {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--blue-lt); color: var(--blue);
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px;
+    }
+    .step-card h3 { font-size: 18px; color: var(--navy); margin-bottom: 10px; }
+    .step-card p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* Features */
+    .bg-mist { background: var(--mist); }
+    .feature-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 18px; padding: 28px;
+      transition: all 0.3s; height: 100%;
+    }
+    .feature-card:hover { box-shadow: 0 12px 40px rgba(11,37,69,0.08); transform: translateY(-4px); }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin-bottom: 16px;
+    }
+    .icon-blue { background: var(--blue-lt); }
+    .icon-teal { background: var(--teal-lt); }
+    .icon-green { background: #e8f8ee; }
+    .feature-card h3 { font-size: 17px; color: var(--navy); margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* Symptom input */
+    .symptom-section { background: linear-gradient(135deg, var(--navy), #1a3a5c); padding: 80px 0; }
+    .input-card {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px; padding: 40px;
+      backdrop-filter: blur(10px);
+    }
+    .symptom-input-wrap {
+      background: rgba(255,255,255,0.95);
+      border-radius: 14px; padding: 6px 6px 6px 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .symptom-input-wrap input {
+      flex: 1; border: none; background: transparent;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px;
+      color: var(--text); outline: none;
+    }
+    .symptom-input-wrap input::placeholder { color: #9aafbf; }
+    .symptom-input-wrap button {
+      background: var(--teal); color: white; border: none;
+      border-radius: 10px; padding: 12px 22px; font-weight: 600;
+      font-size: 14px; cursor: pointer; transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .symptom-input-wrap button:hover { background: #0c9488; }
+    .symptom-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .sym-tag {
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.85); padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; cursor: pointer; transition: all 0.2s;
+    }
+    .sym-tag:hover { background: rgba(14,169,155,0.3); border-color: var(--teal); }
+
+    /* Results */
+    #results-section { display: none; }
+    .result-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .result-card {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px; padding: 12px 18px; cursor: pointer;
+      color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .result-card:hover, .result-card.active {
+      background: var(--teal); border-color: var(--teal); color: white;
+    }
+    .result-content {
+      background: rgba(255,255,255,0.95); border-radius: 16px;
+      padding: 24px; margin-top: 16px; color: var(--text);
+      min-height: 80px; font-size: 15px; line-height: 1.8;
+    }
+    .confidence-track {
+      background: rgba(255,255,255,0.1); border-radius: 20px; height: 8px;
+      overflow: hidden; margin-top: 8px;
+    }
+    .confidence-fill {
+      height: 100%; border-radius: 20px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      transition: width 1.2s ease; width: 0%;
+    }
+    .warn-box {
+      background: rgba(239,168,0,0.15); border: 1px solid rgba(239,168,0,0.4);
+      border-radius: 10px; padding: 12px 16px; color: #fbbf24;
+      font-size: 13px; margin-top: 12px; display: none;
+    }
+    .report-actions { display: none; margin-top: 14px; }
+    .report-btn {
+      background: rgba(255,255,255,0.92); color: var(--navy); border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .report-btn:hover { background: white; transform: translateY(-1px); }
+
+    /* Disclaimer */
+    .disclaimer {
+      background: #fff8e6; border: 1px solid #fde68a;
+      border-radius: 16px; padding: 22px 28px;
+    }
+    .disclaimer p { font-size: 14px; color: #92400e; line-height: 1.7; }
+
+    /* Footer */
+    footer { background: var(--navy); padding: 60px 0 30px; color: rgba(255,255,255,0.5); }
+    .footer-brand { color: white; font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 10px; }
+    .footer-brand span { color: var(--teal); }
+    .footer-tagline { font-size: 14px; max-width: 280px; line-height: 1.7; }
+    .footer-heading { font-family: 'Playfair Display', serif; color: white; font-size: 16px; margin-bottom: 16px; }
+    .footer-link { display: block; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; margin-bottom: 8px; transition: color 0.2s; }
+    .footer-link:hover { color: var(--teal); }
+    .footer-divider { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; margin-top: 40px; }
+    .footer-copy { font-size: 13px; }
+
+    /* Animations */
+    @keyframes floatUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: floatUp 0.6s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* Loader */
+    #loader { display: none; text-align: center; padding: 20px 0; color: rgba(255,255,255,0.7); }
+    .spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.2); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 767px) {
+      .hero-image-wrap { margin-top: 40px; }
+      .hero-pill { display: none; }
+      .stat-item + .stat-item { border-left: none; border-top: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="brand-wrap" href="/">
+      <!-- if your file is static/logo.png -->
+      <img class="brand-logo" src="../static/Medi-Assist_2.jpg" alt="Medi-Assist">
+      <span class="brand-name">Medi<span>-Assist</span></span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+<div class="collapse navbar-collapse" id="navMain">
+  <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+    <li class="nav-item"><a class="nav-link" href="/developer">Developer</a></li>
+    <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+    <li class="nav-item ms-2"><a class="nav-link nav-cta" href="/chat">💬 MediBot Chat</a></li>
+  </ul>
+</div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 fade-up">
+        <div class="hero-badge">AI Health Intelligence · Live</div>
+        <h1>Your Personal<br><em>AI Health</em><br>Assistant</h1>
+        <p>Describe your symptoms in plain language — Medi-Assist analyzes them using a trained machine learning model and gives you clear health guidance in seconds. Available in English, Hindi & Bengali.</p>
+        <div class="hero-btns">
+          <a href="/chat" class="btn-primary-custom">💬 Chat with MediBot →</a>
+          <a href="#symptom-check" class="btn-outline-custom">🔍 Quick Symptom Check</a>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-up delay-2">
+        <div class="hero-image-wrap">
+          <img src="../static/Medi-Assist_2.jpg" alt="Medi-Assist AI">
+          <div class="hero-pill pill-1">
+            <div class="dot" style="background:#17a34a"></div>
+            AI Model Online
+          </div>
+          <div class="hero-pill pill-2">
+            <div class="dot" style="background:#1a6fc4"></div>
+            41 Diseases Detected
+          </div>
+          <div class="hero-pill pill-3">
+            <div class="dot" style="background:#0ea99b"></div>
+            95%+ Accuracy
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ── -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="row g-0 justify-content-center">
+      <div class="col-6 col-md-3 stat-item fade-up">
+        <div class="stat-num">41<span>+</span></div>
+        <div class="stat-label">Diseases in Database</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item fade-up delay-1">
+        <div class="stat-num">132<span>+</span></div>
+        <div class="stat-label">Symptoms Recognized</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item fade-up delay-2">
+        <div class="stat-num">95<span>%</span></div>
+        <div class="stat-label">Model Accuracy</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item fade-up delay-3">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Languages Supported</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── How It Works ── -->
+<section class="section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6">
+        <div class="section-badge">How It Works</div>
+        <h2 class="section-title">From Symptoms to<br>Guidance in Seconds</h2>
+        <p class="section-sub">No forms, no appointments, no jargon. Just type what you're feeling — our AI does the rest.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3 fade-up">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Describe Symptoms</h3>
+          <p>Type your symptoms naturally — "I have fever, headache and nausea" — in English, Hindi, or Bengali.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 fade-up delay-1">
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>AI Analysis</h3>
+          <p>Our SVC model converts your input into a weighted symptom vector and runs a real-time prediction.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 fade-up delay-2">
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Get a Full Report</h3>
+          <p>Receive your predicted condition with a confidence score, description, medicines, diet, and precautions.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 fade-up delay-3">
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3>Take Action</h3>
+          <p>Decide with confidence — whether to rest, visit a pharmacy, or consult a doctor urgently.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section class="section bg-mist">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6">
+        <div class="section-badge">What We Offer</div>
+        <h2 class="section-title">Complete Health Guidance,<br>All in One Place</h2>
+        <p class="section-sub">Medi-Assist provides more than a diagnosis — it's a full health companion for common conditions.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 fade-up">
+        <div class="feature-card">
+          <div class="feature-icon icon-blue">🦠</div>
+          <h3>Disease Prediction</h3>
+          <p>Our trained SVC classifier identifies the most probable disease from your symptoms, with a top-3 ranked result and confidence scores.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up delay-1">
+        <div class="feature-card">
+          <div class="feature-icon icon-teal">💊</div>
+          <h3>Medication Overview</h3>
+          <p>Get a list of commonly used medications for your condition, so you're better informed before visiting a pharmacy or doctor.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up delay-2">
+        <div class="feature-card">
+          <div class="feature-icon icon-blue">⚠️</div>
+          <h3>Precautions & Safety</h3>
+          <p>Know what to avoid and what to do first. Smart precautions tailored to your predicted condition, clearly presented.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up">
+        <div class="feature-card">
+          <div class="feature-icon icon-green">🥗</div>
+          <h3>Diet Recommendations</h3>
+          <p>Personalized food guidance based on your condition — what to eat and what to avoid for faster recovery.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up delay-1">
+        <div class="feature-card">
+          <div class="feature-icon icon-teal">🏃</div>
+          <h3>Safe Exercise Guidance</h3>
+          <p>Know which physical activities are safe for your condition — and which to skip during recovery.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up delay-2">
+        <div class="feature-card">
+          <div class="feature-icon icon-blue">💬</div>
+          <h3>Multilingual MediBot</h3>
+          <p>Chat naturally in English, Hindi, or Bengali. MediBot understands your language and responds in kind.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Symptom Check ── -->
+<section class="symptom-section" id="symptom-check">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center text-white mb-5">
+        <div class="section-badge" style="background:rgba(14,169,155,0.2); color:#4de8d8;">Quick Symptom Check</div>
+        <h2 class="section-title" style="color:white;">Enter Your Symptoms Below</h2>
+        <p style="color:rgba(255,255,255,0.65); font-size:16px; font-weight:300;">Type comma-separated symptoms — or tap a suggestion to get started.</p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="input-card">
+          <div class="symptom-input-wrap">
+            <input type="text" id="symptoms" list="symptom-options" placeholder="e.g. fever, headache, nausea, fatigue…">
+            <datalist id="symptom-options"></datalist>
+            <button onclick="predict(event)">Analyze →</button>
+          </div>
+          <div class="symptom-tags">
+            <span class="sym-tag" onclick="addSymptom('fever, headache')">🤒 Fever + Headache</span>
+            <span class="sym-tag" onclick="addSymptom('chest pain, sweating')">💗 Chest Pain</span>
+            <span class="sym-tag" onclick="addSymptom('itching, skin rash')">🌿 Skin Issues</span>
+            <span class="sym-tag" onclick="addSymptom('cough, breathlessness')">😮‍💨 Respiratory</span>
+            <span class="sym-tag" onclick="addSymptom('joint pain, fatigue')">🦴 Joint Pain</span>
+            <span class="sym-tag" onclick="addSymptom('nausea, vomiting, diarrhea')">🤢 Stomach</span>
+          </div>
+
+          <!-- Warning -->
+          <div class="warn-box" id="warn-box"></div>
+
+          <!-- Loader -->
+          <div id="loader"><div class="spinner"></div><p style="font-size:14px;">Analyzing symptoms…</p></div>
+
+          <!-- Results -->
+          <div id="results-section">
+            <div style="margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1);">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:6px;">
+                <span style="font-size:13px; color:rgba(255,255,255,0.6);">Prediction Confidence</span>
+                <span id="conf-label" style="font-size:14px; font-weight:600; color:#4de8d8;"></span>
+              </div>
+              <div class="confidence-track"><div class="confidence-fill" id="conf-fill"></div></div>
+            </div>
+            <div class="result-grid" id="result-grid">
+              <div class="result-card" onclick="showResult('disease', this)">🦠 Disease</div>
+              <div class="result-card" onclick="showResult('description', this)">📄 Description</div>
+              <div class="result-card" onclick="showResult('precautions', this)">⚠️ Precautions</div>
+              <div class="result-card" onclick="showResult('medication', this)">💊 Medication</div>
+              <div class="result-card" onclick="showResult('workout', this)">🏃 Workout</div>
+              <div class="result-card" onclick="showResult('diet', this)">🥗 Diet</div>
+            </div>
+            <div class="result-content" id="result-content">Tap a card above to view details.</div>
+            <div class="report-actions" id="report-actions">
+              <button class="report-btn" onclick="downloadReport()">Download Report</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer mt-4">
+          <p>⚠️ <strong>Medical Disclaimer:</strong> Medi-Assist provides general health information only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider. In an emergency, call <strong>108</strong> immediately.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── For Doctors Section ── -->
+<section class="section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5 fade-up">
+        <div class="section-badge">For Healthcare Professionals</div>
+        <h2 class="section-title">A Reference Tool for<br>Clinical Settings</h2>
+        <p class="section-sub">Doctors and medical students can use Medi-Assist as a rapid differential diagnosis reference — cross-checking symptom clusters against 41 conditions across the SVC model's training set.</p>
+        <ul style="list-style:none; padding:0; margin-top:24px; display:flex; flex-direction:column; gap:12px;">
+          <li style="display:flex; align-items:flex-start; gap:12px; font-size:14px; color:var(--slate);">
+            <span style="color:var(--teal); font-size:18px; line-height:1.2;">✓</span>
+            Top-3 differential diagnoses with confidence scores
+          </li>
+          <li style="display:flex; align-items:flex-start; gap:12px; font-size:14px; color:var(--slate);">
+            <span style="color:var(--teal); font-size:18px; line-height:1.2;">✓</span>
+            Severity weighting based on clinical symptom data
+          </li>
+          <li style="display:flex; align-items:flex-start; gap:12px; font-size:14px; color:var(--slate);">
+            <span style="color:var(--teal); font-size:18px; line-height:1.2;">✓</span>
+            No internet required — runs fully offline on your machine
+          </li>
+          <li style="display:flex; align-items:flex-start; gap:12px; font-size:14px; color:var(--slate);">
+            <span style="color:var(--teal); font-size:18px; line-height:1.2;">✓</span>
+            Open-source, transparent ML pipeline (SVC with RBF kernel)
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-7 fade-up delay-2">
+        <div style="background:var(--mist); border-radius:20px; padding:32px; border:1px solid var(--border);">
+          <div style="font-size:13px; color:var(--muted); margin-bottom:16px; font-weight:500; text-transform:uppercase; letter-spacing:0.8px;">Sample Clinical Output</div>
+          <div style="background:white; border-radius:14px; padding:20px; border:1px solid var(--border); font-size:14px;">
+            <div style="color:var(--navy); font-weight:600; margin-bottom:8px;">Input Symptoms</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;">
+              <span style="background:var(--blue-lt); color:var(--blue); padding:4px 12px; border-radius:20px; font-size:12px;">high fever</span>
+              <span style="background:var(--blue-lt); color:var(--blue); padding:4px 12px; border-radius:20px; font-size:12px;">headache</span>
+              <span style="background:var(--blue-lt); color:var(--blue); padding:4px 12px; border-radius:20px; font-size:12px;">muscle pain</span>
+              <span style="background:var(--blue-lt); color:var(--blue); padding:4px 12px; border-radius:20px; font-size:12px;">sweating</span>
+              <span style="background:var(--blue-lt); color:var(--blue); padding:4px 12px; border-radius:20px; font-size:12px;">nausea</span>
+            </div>
+            <div style="color:var(--navy); font-weight:600; margin-bottom:12px;">Differential Diagnoses</div>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+              <span style="font-size:16px;">🥇</span>
+              <div style="flex:1;">
+                <div style="font-weight:600; color:var(--navy); font-size:14px;">Malaria — 78.4%</div>
+                <div style="background:#e2e8f0; border-radius:4px; height:6px; margin-top:4px; overflow:hidden;"><div style="width:78%; height:100%; background:linear-gradient(90deg,var(--blue),var(--teal)); border-radius:4px;"></div></div>
+              </div>
+              <span style="font-size:11px; background:#fef2f2; color:#dc2626; padding:3px 8px; border-radius:6px; font-weight:600;">Urgent</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+              <span style="font-size:16px;">🥈</span>
+              <div style="flex:1;">
+                <div style="font-weight:500; color:var(--slate); font-size:14px;">Dengue — 14.2%</div>
+                <div style="background:#e2e8f0; border-radius:4px; height:6px; margin-top:4px; overflow:hidden;"><div style="width:14%; height:100%; background:linear-gradient(90deg,var(--blue),var(--teal)); border-radius:4px;"></div></div>
+              </div>
+              <span style="font-size:11px; background:#fffbeb; color:#d97706; padding:3px 8px; border-radius:6px; font-weight:600;">Moderate</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:16px;">🥉</span>
+              <div style="flex:1;">
+                <div style="font-weight:500; color:var(--slate); font-size:14px;">Typhoid — 5.1%</div>
+                <div style="background:#e2e8f0; border-radius:4px; height:6px; margin-top:4px; overflow:hidden;"><div style="width:5%; height:100%; background:linear-gradient(90deg,var(--blue),var(--teal)); border-radius:4px;"></div></div>
+              </div>
+              <span style="font-size:11px; background:#f0fdf4; color:#16a34a; padding:3px 8px; border-radius:6px; font-weight:600;">Mild</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand">Medi<span>-Assist</span></div>
+        <p class="footer-tagline">AI-powered health guidance built to make medical information accessible to everyone — regardless of location or income.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Platform</div>
+        <a href="/" class="footer-link">Home</a>
+        <a href="/chat" class="footer-link">MediBot Chat</a>
+        <a href="/about" class="footer-link">About</a>
+        <a href="/blog" class="footer-link">Blog</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Connect</div>
+        <a href="/contact" class="footer-link">Contact Us</a>
+        <a href="/developer" class="footer-link">Developer</a>
+        <a href="#" class="footer-link">GitHub</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Emergency?</div>
+        <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">For medical emergencies in India, call national emergency services immediately.</p>
+        <a href="tel:108" style="display:inline-flex; align-items:center; gap:8px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#fca5a5; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px;">📞 Call 108 — Emergency</a>
+      </div>
+    </div>
+    <div class="footer-divider">
+      <div class="row align-items-center">
+        <div class="col-md-6 footer-copy">© 2025 Medi-Assist · Built with care in Kolkata, India</div>
+        <div class="col-md-6 text-md-end footer-copy" style="margin-top:8px;">Not a substitute for professional medical advice.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function fixLocalPreviewLinks() {
+    const host = window.location.hostname;
+    const isLocalHost = host === '127.0.0.1' || host === 'localhost';
+    const isFlaskServer = isLocalHost && window.location.port === '5000';
+    const isLocalPreview = window.location.protocol === 'file:' ||
+      (isLocalHost && window.location.port !== '5000');
+
+    if (!isFlaskServer && isLocalPreview) {
+      document.querySelectorAll('a[href^="/"]').forEach(link => {
+        link.href = 'http://127.0.0.1:5000' + link.getAttribute('href');
+      });
+    }
+  }
+
+  fixLocalPreviewLinks();
+
+  let resultData = {};
+  let lastInputSymptoms = '';
+
+  function addSymptom(sym) {
+    const inp = document.getElementById('symptoms');
+    inp.value = sym;
+    inp.focus();
+  }
+
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function showResult(type, el) {
+    document.querySelectorAll('.result-card').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+    const box = document.getElementById('result-content');
+    if (!resultData[type]) { box.innerHTML = '⚠️ Run a symptom check first.'; return; }
+    if (type === 'disease') {
+      box.innerHTML = `<strong style="color:var(--navy); font-size:16px;">🦠 ${escapeHtml(resultData.disease)}</strong><br><br><span style="color:var(--muted);">Confidence:</span> <strong>${escapeHtml(resultData.confidence)}</strong><br><span style="color:var(--muted);">Severity:</span> <strong>${escapeHtml(resultData.severity || '')}</strong><br><br><span style="color:var(--muted);">Confidence note:</span><br>${escapeHtml(resultData.confidence_note || '')}<br><br><strong>Safety:</strong> This is general information, not a diagnosis. Consult a qualified doctor before taking medicines.`;
+    } else {
+      box.innerHTML = resultData[type];
+    }
+  }
+
+  function getPredictUrl() {
+    const isFlaskServer =
+      window.location.hostname === '127.0.0.1' &&
+      window.location.port === '5000';
+
+    if (isFlaskServer || window.location.hostname.endsWith('onrender.com')) {
+      return '/predict';
+    }
+
+    return 'http://127.0.0.1:5000/predict';
+  }
+
+  function predict(e) {
+    if (e) e.preventDefault();
+    const input = document.getElementById('symptoms').value.trim();
+    if (!input) { alert('Please enter at least one symptom.'); return; }
+    lastInputSymptoms = input;
+    const symptoms = input.split(',').map(s => s.trim().toLowerCase().replace(/ /g, '_')).filter(Boolean);
+
+    document.getElementById('loader').style.display = 'block';
+    document.getElementById('results-section').style.display = 'none';
+    document.getElementById('warn-box').style.display = 'none';
+    document.getElementById('report-actions').style.display = 'none';
+    const t0 = Date.now();
+
+    fetch(getPredictUrl(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symptoms })
+    })
+    .then(r => r.json())
+    .then(data => {
+      const delay = Math.max(0, 1200 - (Date.now() - t0));
+      setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+        if (data.error) {
+          const wb = document.getElementById('warn-box');
+          wb.innerHTML = escapeHtml(data.error);
+          wb.style.display = 'block';
+          if (!data.emergency) alert('Error: ' + data.error);
+          return;
+        }
+
+        if (data.unrecognized && data.unrecognized.length) {
+          const wb = document.getElementById('warn-box');
+          wb.innerHTML = `⚠️ Skipped unrecognized symptoms: <strong>${data.unrecognized.join(', ')}</strong>`;
+          wb.style.display = 'block';
+        }
+
+        document.getElementById('conf-fill').style.width = (data.confidence || 0) + '%';
+        document.getElementById('conf-label').textContent = (data.confidence || 0) + '% confidence';
+
+        resultData = {
+          disease: data.disease || 'Unknown',
+          confidence: (data.confidence || 'N/A') + '%',
+          severity: data.severity || '',
+          confidence_note: data.confidence_note || '',
+          description: data.description || 'No description available.',
+          precautions: data.precautions ? '• ' + data.precautions.filter(Boolean).map(escapeHtml).join('<br>• ') : 'No data.',
+          medication: data.medication ? '• ' + data.medication.map(escapeHtml).join('<br>• ') + '<br><br><strong>Important:</strong> Consult a doctor or pharmacist before taking any medicine.' : 'No data.',
+          workout: data.workout ? '• ' + data.workout.map(escapeHtml).join('<br>• ') : 'No data.',
+          diet: data.diet ? '• ' + data.diet.map(escapeHtml).join('<br>• ') : 'No data.'
+        };
+
+        document.getElementById('results-section').style.display = 'block';
+        document.getElementById('report-actions').style.display = 'block';
+        showResult('disease', document.querySelector('.result-card'));
+      }, delay);
+    })
+    .catch(() => {
+      document.getElementById('loader').style.display = 'none';
+      alert('Connection error. Start the Flask app and open http://127.0.0.1:5000, then try again.');
+    });
+  }
+
+  document.getElementById('symptoms').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      predict(e);
+    }
+  });
+
+  function downloadReport() {
+    if (!resultData.disease) return;
+    const lines = [
+      'Medi-Assist Health Guidance Report',
+      'Generated: ' + new Date().toLocaleString(),
+      '',
+      'Input symptoms: ' + lastInputSymptoms,
+      'Predicted condition: ' + resultData.disease,
+      'Confidence: ' + resultData.confidence,
+      'Severity: ' + resultData.severity,
+      'Confidence note: ' + resultData.confidence_note,
+      '',
+      'Description:',
+      stripHtml(resultData.description),
+      '',
+      'Precautions:',
+      stripHtml(resultData.precautions),
+      '',
+      'Medication overview:',
+      stripHtml(resultData.medication),
+      '',
+      'Diet:',
+      stripHtml(resultData.diet),
+      '',
+      'Workout:',
+      stripHtml(resultData.workout),
+      '',
+      'Medical disclaimer: This report is for general information only and is not a substitute for professional medical advice, diagnosis, or treatment. In an emergency, call 108 immediately.'
+    ];
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'medi-assist-report.txt';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
+  function stripHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html.replace(/<br\s*\/?>/gi, '\n');
+    return tmp.textContent || tmp.innerText || '';
+  }
+
+  fetch(getPredictUrl().replace('/predict', '/symptoms'))
+    .then(r => r.json())
+    .then(data => {
+      const list = document.getElementById('symptom-options');
+      (data.symptoms || []).forEach(symptom => {
+        const option = document.createElement('option');
+        option.value = symptom;
+        list.appendChild(option);
+      });
+    })
+    .catch(() => {});
+</script>
+</body>
+</html>

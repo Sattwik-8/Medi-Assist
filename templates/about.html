@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../static/Medi-Assist_2.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — Medi-Assist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --blue:    #1a6fc4;
+      --blue-lt: #e8f2fc;
+      --blue-dk: #0e4a8a;
+      --teal:    #0ea99b;
+      --teal-lt: #e2f7f5;
+      --navy:    #0b2545;
+      --slate:   #3a5472;
+      --mist:    #f4f8fc;
+      --white:   #ffffff;
+      --border:  #d6e4f0;
+      --text:    #1e3a52;
+      --muted:   #6b8299;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: var(--white); }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      padding: 14px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-logo { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--teal); object-fit: cover; }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+    .brand-name span { color: var(--teal); }
+    .navbar .nav-link { color: var(--slate); font-size: 14px; font-weight: 500; padding: 6px 14px !important; border-radius: 8px; transition: all 0.2s; }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--blue); background: var(--blue-lt); }
+    .nav-cta { background: var(--teal) !important; color: white !important; border-radius: 8px !important; padding: 8px 18px !important; }
+    .nav-cta:hover { background: #0c9488 !important; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 55%, #0b4a6f 100%);
+      padding: 80px 0 70px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 40%, rgba(14,169,155,0.15) 0%, transparent 55%),
+                  radial-gradient(ellipse at 10% 80%, rgba(26,111,196,0.18) 0%, transparent 50%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(14,169,155,0.15); border: 1px solid rgba(14,169,155,0.4);
+      color: #4de8d8; padding: 6px 16px; border-radius: 30px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: clamp(34px, 5vw, 58px); color: white; line-height: 1.12; margin-bottom: 16px; }
+    .hero h1 em { font-style: normal; color: #4de8d8; }
+    .hero p { font-size: 17px; color: rgba(255,255,255,0.68); max-width: 520px; line-height: 1.8; font-weight: 300; }
+
+    /* ── Stats band ── */
+    .stats-band {
+      background: white; border-bottom: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    .stat-cell { text-align: center; padding: 0 28px; }
+    .stat-cell + .stat-cell { border-left: 1px solid var(--border); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 800; color: var(--navy); line-height: 1; }
+    .stat-num span { color: var(--teal); }
+    .stat-lbl { font-size: 13px; color: var(--muted); margin-top: 5px; }
+
+    /* ── Sections ── */
+    .section { padding: 80px 0; }
+    .bg-mist { background: var(--mist); }
+    .section-badge {
+      display: inline-block; background: var(--teal-lt);
+      color: var(--teal); font-size: 12px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .section-title { font-size: clamp(26px, 3vw, 40px); color: var(--navy); margin-bottom: 14px; }
+    .section-sub { font-size: 16px; color: var(--muted); line-height: 1.8; font-weight: 300; max-width: 500px; }
+
+    /* ── Mission card ── */
+    .mission-card {
+      background: var(--navy); border-radius: 24px; padding: 48px;
+      position: relative; overflow: hidden; color: rgba(255,255,255,0.78);
+    }
+    .mission-card::before {
+      content: '🏥'; position: absolute; right: 40px; top: 40px;
+      font-size: 100px; opacity: 0.05;
+    }
+    .mission-card::after {
+      content: ''; position: absolute; bottom: -60px; left: -60px;
+      width: 240px; height: 240px; border-radius: 50%;
+      background: rgba(14,169,155,0.08);
+    }
+    .mission-card h2 { color: white; margin-bottom: 20px; font-size: 28px; }
+    .mission-card h2 span { color: #4de8d8; }
+    .mission-card p { font-size: 16px; line-height: 1.9; font-weight: 300; position: relative; z-index: 1; }
+    .mission-card p + p { margin-top: 16px; }
+
+    /* ── Feature grid ── */
+    .feat-card {
+      background: white; border: 1px solid var(--border); border-radius: 20px;
+      padding: 28px; height: 100%; transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .feat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .feat-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(26,111,196,0.1); }
+    .feat-card:hover::before { transform: scaleX(1); }
+    .feat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 16px; }
+    .ic-blue { background: var(--blue-lt); }
+    .ic-teal { background: var(--teal-lt); }
+    .ic-green { background: #e8f8ee; }
+    .feat-card h3 { font-size: 17px; color: var(--navy); margin-bottom: 8px; }
+    .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* ── How it works steps ── */
+    .step-row {
+      display: flex; gap: 28px; align-items: flex-start;
+      padding: 28px 0; border-bottom: 1px solid var(--border);
+    }
+    .step-row:last-child { border-bottom: none; }
+    .step-num {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      color: white; font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-row h3 { font-size: 18px; color: var(--navy); margin-bottom: 6px; }
+    .step-row p { font-size: 14px; color: var(--muted); line-height: 1.75; font-weight: 300; }
+
+    /* ── Tech pills ── */
+    .tech-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: white; border: 1px solid var(--border);
+      border-radius: 30px; padding: 10px 20px; font-size: 14px;
+      font-weight: 500; color: var(--slate); transition: all 0.2s;
+    }
+    .tech-pill:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-lt); }
+
+    /* ── Disclaimer ── */
+    .disclaimer-box {
+      background: #fff8e6; border: 1px solid #fde68a;
+      border-radius: 18px; padding: 28px 32px; text-align: center;
+    }
+    .disclaimer-box p { font-size: 14px; color: #92400e; line-height: 1.8; }
+
+    /* ── Footer ── */
+    footer { background: var(--navy); padding: 60px 0 30px; color: rgba(255,255,255,0.5); }
+    .footer-brand { color: white; font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 10px; }
+    .footer-brand span { color: var(--teal); }
+    .footer-tagline { font-size: 14px; max-width: 280px; line-height: 1.7; }
+    .footer-heading { font-family: 'Playfair Display', serif; color: white; font-size: 16px; margin-bottom: 16px; }
+    .footer-link { display: block; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; margin-bottom: 8px; transition: color 0.2s; }
+    .footer-link:hover { color: var(--teal); }
+    .footer-divider { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; margin-top: 40px; }
+    .footer-copy { font-size: 13px; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.2s; } .d3 { animation-delay: 0.3s; }
+
+    @media (max-width: 767px) {
+      .stat-cell + .stat-cell { border-left: none; border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 768px) {
+  .hero {
+    padding: 56px 0 44px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary-custom,
+  .btn-outline-custom {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+}
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="brand-wrap" href="/">
+      <img class="brand-logo" src="../static/Medi-Assist_2.jpg" alt="Medi-Assist">
+      <span class="brand-name">Medi<span>-Assist</span></span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/developer">Developer</a></li>
+        <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+        <li class="nav-item ms-2"><a class="nav-link nav-cta" href="/chat">💬 MediBot Chat</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7 fade-up">
+        <div class="hero-badge">About Medi-Assist</div>
+        <h1>Healthcare Made<br><em>Intelligent</em> &amp; Accessible</h1>
+        <p>Medi-Assist uses machine learning to analyze symptoms and deliver clear, actionable health guidance — in seconds, in your language, with no internet dependency.</p>
+      </div>
+      <div class="col-lg-5 fade-up d2">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:18px 22px; display:flex; align-items:center; gap:16px;">
+            <span style="font-size:28px;">🤖</span>
+            <div>
+              <div style="font-weight:600; color:white; font-size:15px;">Trained ML Model</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.55);">SVC classifier · 95%+ accuracy</div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:18px 22px; display:flex; align-items:center; gap:16px;">
+            <span style="font-size:28px;">📶</span>
+            <div>
+              <div style="font-weight:600; color:white; font-size:15px;">Works Offline</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.55);">No API calls · runs locally</div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:18px 22px; display:flex; align-items:center; gap:16px;">
+            <span style="font-size:28px;">🌐</span>
+            <div>
+              <div style="font-weight:600; color:white; font-size:15px;">3 Languages</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.55);">English · Hindi · Bengali</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ── -->
+<div class="stats-band">
+  <div class="container">
+    <div class="row g-0 justify-content-center">
+      <div class="col-6 col-md-3 stat-cell fade-up">
+        <div class="stat-num">41<span>+</span></div>
+        <div class="stat-lbl">Diseases Detected</div>
+      </div>
+      <div class="col-6 col-md-3 stat-cell fade-up d1">
+        <div class="stat-num">132<span>+</span></div>
+        <div class="stat-lbl">Symptoms Recognized</div>
+      </div>
+      <div class="col-6 col-md-3 stat-cell fade-up d2">
+        <div class="stat-num">95<span>%</span></div>
+        <div class="stat-lbl">Model Accuracy</div>
+      </div>
+      <div class="col-6 col-md-3 stat-cell fade-up d3">
+        <div class="stat-num">0<span>ms</span></div>
+        <div class="stat-lbl">External API Latency</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Mission ── -->
+<section class="section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-5">
+        <div class="section-badge">Our Mission</div>
+        <h2 class="section-title">Built for the Billion Without Easy Access to Healthcare</h2>
+        <p class="section-sub">India has one doctor for every 1,500 people. Rural areas are far worse. Medi-Assist exists to bridge that gap.</p>
+      </div>
+    </div>
+    <div class="mission-card fade-up">
+      <h2>Why We <span>Built This</span></h2>
+      <p>
+        Medi-Assist was born from a simple but powerful belief — that quality health information should be accessible to everyone, regardless of where they live or what they can afford. Millions of people across India self-medicate, ignore warning symptoms, or wait far too long before seeking help — not out of negligence, but because access to timely medical guidance simply isn't there.
+      </p>
+      <p>
+        We built Medi-Assist to be that first line of guidance. A smart, offline-capable tool that listens to your symptoms in plain language, thinks like a trained clinician, and delivers a clear, actionable health report in seconds — no appointment needed, no internet required, no medical jargon to decode. Just answers, when and where you need them.
+      </p>
+      <p>
+        For healthcare professionals, it serves as a rapid differential diagnosis aid. For patients, it's a trusted companion that empowers informed decisions. For students, it's a live demonstration of AI in medicine.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── What We Offer ── -->
+<section class="section bg-mist">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6">
+        <div class="section-badge">What We Offer</div>
+        <h2 class="section-title">A Complete Health Guidance Platform</h2>
+        <p class="section-sub">One tool, six types of clinical guidance — all derived from a single symptom description.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 fade-up">
+        <div class="feat-card">
+          <div class="feat-icon ic-blue">🦠</div>
+          <h3>Disease Prediction</h3>
+          <p>Our SVC classifier analyzes your symptom vector and returns the top-3 most probable diagnoses with confidence scores and severity indicators.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up d1">
+        <div class="feat-card">
+          <div class="feat-icon ic-teal">💊</div>
+          <h3>Medication Overview</h3>
+          <p>Understand which medications are commonly prescribed for your condition — so your conversation with a pharmacist or doctor is informed, not blind.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up d2">
+        <div class="feat-card">
+          <div class="feat-icon ic-blue">⚠️</div>
+          <h3>Precautions & Safety</h3>
+          <p>Know exactly what to do and what to avoid after a potential diagnosis — reducing the risk of worsening a condition through common mistakes.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up">
+        <div class="feat-card">
+          <div class="feat-icon ic-green">🥗</div>
+          <h3>Dietary Guidance</h3>
+          <p>Condition-specific food recommendations to support recovery. Know what your body needs and what it should avoid during illness.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up d1">
+        <div class="feat-card">
+          <div class="feat-icon ic-teal">🏃</div>
+          <h3>Exercise Recommendations</h3>
+          <p>Safe physical activity guidance tailored to your predicted condition — because rest and movement both matter, in the right balance.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-up d2">
+        <div class="feat-card">
+          <div class="feat-icon ic-blue">💬</div>
+          <h3>Multilingual MediBot</h3>
+          <p>Chat naturally in English, Hindi, or Bengali. MediBot understands colloquial symptom descriptions and responds in your chosen language.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How It Works ── -->
+<section class="section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5">
+        <div class="section-badge">How It Works</div>
+        <h2 class="section-title">Four Steps from Symptoms to Clarity</h2>
+        <p class="section-sub">Medi-Assist is designed to feel effortless — describe what you feel, and receive a structured health report within seconds.</p>
+        <a href="/chat" style="display:inline-flex; align-items:center; gap:8px; margin-top:28px; background:var(--teal); color:white; padding:14px 26px; border-radius:10px; font-weight:600; font-size:15px; text-decoration:none; transition:all 0.2s;">
+          Try it now →
+        </a>
+      </div>
+      <div class="col-lg-7">
+        <div class="step-row fade-up">
+          <div class="step-num">1</div>
+          <div>
+            <h3>Describe Your Symptoms</h3>
+            <p>Type your symptoms in plain language — "I have fever, headache, and nausea since yesterday" — in English, Hindi, or Bengali. No medical terminology required.</p>
+          </div>
+        </div>
+        <div class="step-row fade-up d1">
+          <div class="step-num">2</div>
+          <div>
+            <h3>AI Analyzes the Pattern</h3>
+            <p>Our trained Support Vector Classifier converts your symptoms into a severity-weighted vector and runs a real-time prediction across 41 disease classes.</p>
+          </div>
+        </div>
+        <div class="step-row fade-up d2">
+          <div class="step-num">3</div>
+          <div>
+            <h3>Receive a Full Health Report</h3>
+            <p>Get a ranked differential diagnosis with confidence scores, disease description, medications, precautions, dietary advice, and safe workout guidance.</p>
+          </div>
+        </div>
+        <div class="step-row fade-up d3">
+          <div class="step-num">4</div>
+          <div>
+            <h3>Take Informed Action</h3>
+            <p>Use your report to decide: monitor at home, visit a pharmacy, or see a doctor urgently. Severity indicators guide the urgency of your next step.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Tech Stack ── -->
+<section class="section bg-mist">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-lg-6">
+        <div class="section-badge">Technology</div>
+        <h2 class="section-title">Built With</h2>
+        <p class="section-sub">A transparent, open-source ML stack — no black boxes, no vendor lock-in.</p>
+      </div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:12px;" class="fade-up">
+      <div class="tech-pill">🐍 Python 3</div>
+      <div class="tech-pill">🌶️ Flask</div>
+      <div class="tech-pill">🤖 Scikit-learn (SVC)</div>
+      <div class="tech-pill">🔢 NumPy</div>
+      <div class="tech-pill">📊 Pandas</div>
+      <div class="tech-pill">🎨 Bootstrap 5</div>
+      <div class="tech-pill">📦 Pickle</div>
+      <div class="tech-pill">🌐 Gunicorn</div>
+      <div class="tech-pill">☁️ Render.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Disclaimer ── -->
+<section class="section">
+  <div class="container">
+    <div class="disclaimer-box fade-up">
+      <p>⚠️ <strong>Medical Disclaimer —</strong> Medi-Assist is an educational and informational tool. It is not a licensed medical device and does not replace professional medical advice, diagnosis, or treatment. Predictions are probabilistic and based on training data — they may be incomplete or incorrect. Always consult a qualified healthcare professional for medical concerns. <strong>In an emergency, call 108 immediately.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand">Medi<span>-Assist</span></div>
+        <p class="footer-tagline">AI-powered health guidance built to make medical information accessible to everyone — regardless of location or income.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Platform</div>
+        <a href="/" class="footer-link">Home</a>
+        <a href="/chat" class="footer-link">MediBot Chat</a>
+        <a href="/about" class="footer-link">About</a>
+        <a href="/blog" class="footer-link">Blog</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Connect</div>
+        <a href="/contact" class="footer-link">Contact Us</a>
+        <a href="/developer" class="footer-link">Developer</a>
+        <a href="#" class="footer-link">GitHub</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Emergency?</div>
+        <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">For medical emergencies in India, call national emergency services immediately.</p>
+        <a href="tel:108" style="display:inline-flex; align-items:center; gap:8px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#fca5a5; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px;">📞 Call 108 — Emergency</a>
+      </div>
+    </div>
+    <div class="footer-divider">
+      <div class="row align-items-center">
+        <div class="col-md-6 footer-copy">© 2025 Medi-Assist · Built with care in Kolkata, India</div>
+        <div class="col-md-6 text-md-end footer-copy" style="margin-top:8px;">Not a substitute for professional medical advice.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  (function fixLocalPreviewLinks() {
+    const host = window.location.hostname;
+    const isLocalHost = host === '127.0.0.1' || host === 'localhost';
+    const isFlaskServer = isLocalHost && window.location.port === '5000';
+    const isLocalPreview = window.location.protocol === 'file:' ||
+      (isLocalHost && window.location.port !== '5000');
+
+    if (!isFlaskServer && isLocalPreview) {
+      document.querySelectorAll('a[href^="/"]').forEach(link => {
+        link.href = 'http://127.0.0.1:5000' + link.getAttribute('href');
+      });
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: medi-assist
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app --workers 2 --timeout 120 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true        # Render auto-generates a secure value
+      - key: GMAIL_USER
+        sync: false                # Set manually in Render dashboard
+      - key: GMAIL_APP_PASSWORD
+        sync: false                # Set manually in Render dashboard
+      - key: CONTACT_RECIPIENT
+        value: sattwik.hit@gmail.com
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash-lite
+      - key: FLASK_DEBUG
+        value: false
+    healthCheckPath: /

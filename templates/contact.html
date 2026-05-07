@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../static/Medi-Assist_2.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact — Medi-Assist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --blue:    #1a6fc4;
+      --blue-lt: #e8f2fc;
+      --teal:    #0ea99b;
+      --teal-lt: #e2f7f5;
+      --navy:    #0b2545;
+      --slate:   #3a5472;
+      --mist:    #f4f8fc;
+      --white:   #ffffff;
+      --border:  #d6e4f0;
+      --text:    #1e3a52;
+      --muted:   #6b8299;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: var(--mist); }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      padding: 14px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-logo { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--teal); object-fit: cover; }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+    .brand-name span { color: var(--teal); }
+    .navbar .nav-link { color: var(--slate); font-size: 14px; font-weight: 500; padding: 6px 14px !important; border-radius: 8px; transition: all 0.2s; }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--blue); background: var(--blue-lt); }
+    .nav-cta { background: var(--teal) !important; color: white !important; border-radius: 8px !important; padding: 8px 18px !important; }
+    .nav-cta:hover { background: #0c9488 !important; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 55%, #0b4a6f 100%);
+      padding: 72px 0 60px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(14,169,155,0.15) 0%, transparent 55%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(14,169,155,0.15); border: 1px solid rgba(14,169,155,0.4);
+      color: #4de8d8; padding: 6px 16px; border-radius: 30px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: clamp(32px, 4.5vw, 52px); color: white; line-height: 1.15; margin-bottom: 14px; }
+    .hero h1 em { font-style: normal; color: #4de8d8; }
+    .hero p { font-size: 16px; color: rgba(255,255,255,0.65); max-width: 480px; line-height: 1.8; font-weight: 300; }
+
+    /* ── Main layout ── */
+    .main-wrap { max-width: 1000px; margin: 0 auto; padding: 60px 20px 80px; }
+
+    /* ── Info panel ── */
+    .info-panel {
+      background: var(--navy); border-radius: 24px; padding: 40px 36px;
+      height: 100%; position: relative; overflow: hidden;
+    }
+    .info-panel::before {
+      content: ''; position: absolute; bottom: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(14,169,155,0.08);
+    }
+    .info-panel h2 { font-size: 24px; color: white; margin-bottom: 28px; }
+    .info-panel h2 span { color: #4de8d8; }
+
+    .info-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
+    .info-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .info-item h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .info-item p { font-size: 15px; color: rgba(255,255,255,0.85); font-weight: 500; }
+
+    .divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 24px 0; }
+
+    .social-row { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .social-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 16px; border-radius: 10px; font-size: 13px; font-weight: 500;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.06);
+      transition: all 0.2s;
+    }
+    .social-pill:hover { border-color: var(--teal); color: #4de8d8; background: rgba(14,169,155,0.12); }
+
+    /* ── Response time badge ── */
+    .response-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(14,169,155,0.12); border: 1px solid rgba(14,169,155,0.25);
+      border-radius: 10px; padding: 10px 16px; margin-top: 24px;
+      color: #4de8d8; font-size: 13px; font-weight: 500; position: relative; z-index: 1;
+    }
+    .response-badge span { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ── Contact form ── */
+    .form-panel {
+      background: white; border-radius: 24px; padding: 40px 36px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 24px rgba(26,111,196,0.06);
+    }
+    .form-panel h2 { font-size: 24px; color: var(--navy); margin-bottom: 6px; }
+    .form-panel .sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; font-weight: 300; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--slate); margin-bottom: 8px; letter-spacing: 0.3px;
+    }
+    .form-group label span { color: #dc2626; }
+    .form-control-custom {
+      width: 100%; padding: 12px 16px;
+      background: var(--mist); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px;
+      transition: all 0.2s; outline: none;
+    }
+    .form-control-custom:focus { border-color: var(--teal); background: white; box-shadow: 0 0 0 3px rgba(14,169,155,0.1); }
+    .form-control-custom::placeholder { color: #9aafbf; }
+    textarea.form-control-custom { height: 120px; resize: vertical; line-height: 1.6; }
+    select.form-control-custom { cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M0 0l6 7 6-7z' fill='%236b8299'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center;
+      background-size: 10px;
+    }
+
+    .submit-btn {
+      width: 100%; padding: 15px; background: linear-gradient(135deg, var(--blue), var(--teal));
+      border: none; border-radius: 12px; color: white;
+      font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .submit-btn:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(14,169,155,0.3); }
+    .submit-btn:active { transform: scale(0.98); }
+
+    .success-msg {
+      display: none; background: #f0fdf4; border: 1px solid #86efac;
+      border-radius: 12px; padding: 16px 20px; text-align: center;
+      color: #15803d; font-size: 14px; font-weight: 500; margin-top: 16px;
+    }
+    .error-msg {
+      display: none; font-size: 12px; color: #dc2626; margin-top: 4px;
+    }
+
+    /* ── FAQ ── */
+    .faq-section { max-width: 1000px; margin: 0 auto; padding: 0 20px 60px; }
+    .section-badge {
+      display: inline-block; background: var(--teal-lt);
+      color: var(--teal); font-size: 12px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .section-title { font-size: clamp(24px, 3vw, 36px); color: var(--navy); margin-bottom: 32px; }
+
+    .faq-item {
+      background: white; border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px 24px; margin-bottom: 12px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .faq-item:hover { border-color: var(--teal); }
+    .faq-item.open { border-color: var(--teal); box-shadow: 0 4px 16px rgba(14,169,155,0.08); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      font-weight: 600; font-size: 15px; color: var(--navy);
+    }
+    .faq-q .arrow { color: var(--teal); font-size: 18px; transition: transform 0.3s; }
+    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+    .faq-a { display: none; margin-top: 12px; font-size: 14px; color: var(--muted); line-height: 1.75; font-weight: 300; }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── Emergency card ── */
+    .emergency-wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px 60px; }
+    .emergency-card {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      border-radius: 20px; padding: 32px 36px;
+      display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+    }
+    .emergency-card .icon { font-size: 48px; }
+    .emergency-card h3 { font-size: 20px; color: white; margin-bottom: 8px; }
+    .emergency-card p { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.7; font-weight: 300; margin-bottom: 16px; }
+    .call-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: white; color: #991b1b; padding: 13px 24px;
+      border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 15px;
+      transition: all 0.2s;
+    }
+    .call-btn:hover { background: #fef2f2; color: #991b1b; }
+
+    /* ── Footer ── */
+    footer { background: var(--navy); padding: 60px 0 30px; color: rgba(255,255,255,0.5); }
+    .footer-brand { color: white; font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 10px; }
+    .footer-brand span { color: var(--teal); }
+    .footer-tagline { font-size: 14px; max-width: 280px; line-height: 1.7; }
+    .footer-heading { font-family: 'Playfair Display', serif; color: white; font-size: 16px; margin-bottom: 16px; }
+    .footer-link { display: block; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; margin-bottom: 8px; transition: color 0.2s; }
+    .footer-link:hover { color: var(--teal); }
+    .footer-divider { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; margin-top: 40px; }
+    .footer-copy { font-size: 13px; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.2s; }
+
+    @media (max-width: 767px) {
+      .form-panel, .info-panel { padding: 28px 22px; }
+    }
+    @media (max-width: 768px) {
+  .hero {
+    padding: 56px 0 44px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary-custom,
+  .btn-outline-custom {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+}
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="brand-wrap" href="/">
+      <img class="brand-logo" src="../static/Medi-Assist_2.jpg" alt="Medi-Assist">
+      <span class="brand-name">Medi<span>-Assist</span></span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/developer">Developer</a></li>
+        <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+        <li class="nav-item ms-2"><a class="nav-link nav-cta" href="/chat">💬 MediBot Chat</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container fade-up">
+    <div class="hero-badge">Contact Us</div>
+    <h1>Get in <em>Touch</em></h1>
+    <p>Have feedback, a bug report, or want to collaborate on making healthcare more accessible? We'd love to hear from you.</p>
+  </div>
+</section>
+
+<!-- ── Main ── -->
+<div class="main-wrap">
+  <div class="row g-4 fade-up">
+
+    <!-- Info Panel -->
+    <div class="col-lg-5">
+      <div class="info-panel">
+        <h2>Contact <span>Information</span></h2>
+
+        <div class="info-item">
+          <div class="info-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p>mediassist@gmail.com</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p>Kolkata, West Bengal, India</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🕐</div>
+          <div>
+            <h4>Response Time</h4>
+            <p>Within 24 hours</p>
+          </div>
+        </div>
+
+        <div class="response-badge">
+          <span></span> Currently accepting feedback & collaboration requests
+        </div>
+
+        <hr class="divider">
+
+        <div style="font-size:12px; color:rgba(255,255,255,0.4); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; position:relative; z-index:1;">Find Me On</div>
+        <div class="social-row">
+          <a href="#" class="social-pill">🐙 GitHub</a>
+          <a href="#" class="social-pill">💼 LinkedIn</a>
+          <a href="#" class="social-pill">🐦 Twitter</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Panel -->
+    <div class="col-lg-7">
+      <div class="form-panel">
+        <h2>Send a Message</h2>
+        <p class="sub">All fields marked with <span style="color:#dc2626;">*</span> are required. We read every message personally.</p>
+
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Full Name <span>*</span></label>
+              <input type="text" class="form-control-custom" id="fname" placeholder="e.g. Rahul Sharma">
+              <div class="error-msg" id="err-name">Please enter your name.</div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Email Address <span>*</span></label>
+              <input type="email" class="form-control-custom" id="femail" placeholder="you@example.com">
+              <div class="error-msg" id="err-email">Please enter a valid email.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Subject <span>*</span></label>
+          <select class="form-control-custom" id="fsubject">
+            <option value="">Select a topic…</option>
+            <option>🐛 Bug Report</option>
+            <option>💡 Feature Request</option>
+            <option>🤝 Collaboration</option>
+            <option>🏥 Medical / Clinical Feedback</option>
+            <option>📊 Data / Model Accuracy</option>
+            <option>💬 General Feedback</option>
+            <option>Other</option>
+          </select>
+          <div class="error-msg" id="err-subject">Please select a subject.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Message <span>*</span></label>
+          <textarea class="form-control-custom" id="fmessage" placeholder="Describe your query, feedback, or collaboration idea in detail…"></textarea>
+          <div class="error-msg" id="err-msg">Please write a message.</div>
+        </div>
+
+        <div class="form-group" style="display:flex; align-items:flex-start; gap:10px; margin-bottom:24px;">
+          <input type="checkbox" id="consent" style="margin-top:3px; accent-color:var(--teal); width:16px; height:16px; cursor:pointer; flex-shrink:0;">
+          <label for="consent" style="font-size:13px; color:var(--muted); cursor:pointer; letter-spacing:0; text-transform:none; font-weight:400;">I understand that Medi-Assist is not a substitute for professional medical advice. This message is not a medical consultation.</label>
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()">Send Message →</button>
+        <div class="success-msg" id="success-msg">
+          ✅ Your message has been received! We'll get back to you within 24 hours.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FAQ ── -->
+<div class="faq-section fade-up">
+  <div class="section-badge">FAQ</div>
+  <h2 class="section-title">Frequently Asked Questions</h2>
+
+  <div class="faq-item open" onclick="toggleFaq(this)">
+    <div class="faq-q">Is Medi-Assist a real medical service? <span class="arrow">▾</span></div>
+    <div class="faq-a">No. Medi-Assist is an AI-powered educational and informational tool. It is not a licensed medical service, and its predictions are not a diagnosis. Always consult a qualified healthcare professional for medical advice.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">How accurate is the disease prediction? <span class="arrow">▾</span></div>
+    <div class="faq-a">Our SVC model achieves 95%+ accuracy on the training and test datasets. However, accuracy varies with real-world inputs. The system works best when multiple clear symptoms are provided. Always treat predictions as informational, not definitive.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Does Medi-Assist store my symptom data? <span class="arrow">▾</span></div>
+    <div class="faq-a">Medi-Assist does not store or log your symptom queries. Each prediction is processed in real-time and discarded. No personal health data is retained on our servers.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Can I use Medi-Assist without internet? <span class="arrow">▾</span></div>
+    <div class="faq-a">The ML model itself requires no external API calls — it runs entirely on the server. You do need internet access to reach the web app, but the prediction engine has zero external API dependency once the app is running.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">How can I collaborate or contribute? <span class="arrow">▾</span></div>
+    <div class="faq-a">We welcome contributions — whether it's expanding the symptom database, improving the ML model, translating to more languages, or providing clinical validation feedback. Use the contact form above to get in touch with details about your proposal.</div>
+  </div>
+</div>
+
+<!-- ── Emergency ── -->
+<div class="emergency-wrap fade-up">
+  <div class="emergency-card">
+    <div class="icon">🚨</div>
+    <div style="flex:1">
+      <h3>Experiencing a Medical Emergency?</h3>
+      <p>Do not use Medi-Assist in an emergency. If you or someone nearby is in immediate danger or experiencing severe symptoms such as chest pain, difficulty breathing, loss of consciousness, or heavy bleeding — call emergency services immediately.</p>
+      <a href="tel:108" class="call-btn">📞 Call 108 — India Emergency Services</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand">Medi<span>-Assist</span></div>
+        <p class="footer-tagline">AI-powered health guidance built to make medical information accessible to everyone — regardless of location or income.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Platform</div>
+        <a href="/" class="footer-link">Home</a>
+        <a href="/chat" class="footer-link">MediBot Chat</a>
+        <a href="/about" class="footer-link">About</a>
+        <a href="/blog" class="footer-link">Blog</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Connect</div>
+        <a href="/contact" class="footer-link">Contact Us</a>
+        <a href="/developer" class="footer-link">Developer</a>
+        <a href="#" class="footer-link">GitHub</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Emergency?</div>
+        <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">For medical emergencies in India, call national emergency services immediately.</p>
+        <a href="tel:108" style="display:inline-flex; align-items:center; gap:8px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#fca5a5; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px;">📞 Call 108 — Emergency</a>
+      </div>
+    </div>
+    <div class="footer-divider">
+      <div class="row align-items-center">
+        <div class="col-md-6 footer-copy">© 2025 Medi-Assist · Built with care in Kolkata, India</div>
+        <div class="col-md-6 text-md-end footer-copy" style="margin-top:8px;">Not a substitute for professional medical advice.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function getApiUrl(path) {
+    const host = window.location.hostname;
+    const isLocalHost = host === '127.0.0.1' || host === 'localhost';
+    const isFlaskServer = isLocalHost && window.location.port === '5000';
+
+    if (isFlaskServer || host.endsWith('onrender.com')) {
+      return path;
+    }
+
+    return 'http://127.0.0.1:5000' + path;
+  }
+
+  (function fixLocalPreviewLinks() {
+    const host = window.location.hostname;
+    const isLocalHost = host === '127.0.0.1' || host === 'localhost';
+    const isFlaskServer = isLocalHost && window.location.port === '5000';
+    const isLocalPreview = window.location.protocol === 'file:' ||
+      (isLocalHost && window.location.port !== '5000');
+
+    if (!isFlaskServer && isLocalPreview) {
+      document.querySelectorAll('a[href^="/"]').forEach(link => {
+        link.href = 'http://127.0.0.1:5000' + link.getAttribute('href');
+      });
+    }
+  })();
+
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+  }
+
+  function submitForm() {
+    const name    = document.getElementById('fname').value.trim();
+    const email   = document.getElementById('femail').value.trim();
+    const subject = document.getElementById('fsubject').value;
+    const message = document.getElementById('fmessage').value.trim();
+    const consent = document.getElementById('consent').checked;
+
+    let valid = true;
+
+    document.getElementById('err-name').style.display    = 'none';
+    document.getElementById('err-email').style.display   = 'none';
+    document.getElementById('err-subject').style.display = 'none';
+    document.getElementById('err-msg').style.display     = 'none';
+
+    if (!name)                        { document.getElementById('err-name').style.display    = 'block'; valid = false; }
+    if (!email || !email.includes('@')){ document.getElementById('err-email').style.display  = 'block'; valid = false; }
+    if (!subject)                      { document.getElementById('err-subject').style.display = 'block'; valid = false; }
+    if (!message)                      { document.getElementById('err-msg').style.display     = 'block'; valid = false; }
+    if (!consent) { alert('Please acknowledge the disclaimer before submitting.'); valid = false; }
+    if (!valid) return;
+
+    fetch(getApiUrl('/contact-submit'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, subject, message })
+    })
+    .then(r => r.json())
+    .then(() => {
+      document.getElementById('success-msg').style.display = 'block';
+      document.getElementById('fname').value    = '';
+      document.getElementById('femail').value   = '';
+      document.getElementById('fsubject').value = '';
+      document.getElementById('fmessage').value = '';
+      document.getElementById('consent').checked = false;
+    })
+    .catch(() => {
+      document.getElementById('success-msg').style.display = 'block';
+    });
+  }
+</script>
+</body>
+</html>

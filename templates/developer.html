@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../static/Medi-Assist_2.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Development Team - Medi-Assist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --blue:    #1a6fc4;
+      --blue-lt: #e8f2fc;
+      --blue-dk: #0e4a8a;
+      --teal:    #0ea99b;
+      --teal-lt: #e2f7f5;
+      --navy:    #0b2545;
+      --slate:   #3a5472;
+      --mist:    #f4f8fc;
+      --white:   #ffffff;
+      --border:  #d6e4f0;
+      --text:    #1e3a52;
+      --muted:   #6b8299;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background: var(--white); }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      padding: 14px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-logo { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--teal); object-fit: cover; }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+    .brand-name span { color: var(--teal); }
+    .navbar .nav-link { color: var(--slate); font-size: 14px; font-weight: 500; padding: 6px 14px !important; border-radius: 8px; transition: all 0.2s; }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--blue); background: var(--blue-lt); }
+    .nav-cta { background: var(--teal) !important; color: white !important; border-radius: 8px !important; padding: 8px 18px !important; }
+    .nav-cta:hover { background: #0c9488 !important; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 55%, #0b4a6f 100%);
+      padding: 80px 0 0;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 30%, rgba(14,169,155,0.15) 0%, transparent 55%),
+                  radial-gradient(ellipse at 10% 80%, rgba(26,111,196,0.18) 0%, transparent 50%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(14,169,155,0.15); border: 1px solid rgba(14,169,155,0.4);
+      color: #4de8d8; padding: 6px 16px; border-radius: 30px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.2px;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: clamp(34px, 5vw, 58px); color: white; line-height: 1.12; margin-bottom: 14px; }
+    .hero h1 em { font-style: normal; color: #4de8d8; }
+    .hero p { font-size: 16px; color: rgba(255,255,255,0.65); max-width: 480px; line-height: 1.8; font-weight: 300; margin-bottom: 32px; }
+
+    /* ── Team card (half inside hero, half outside) ── */
+    .profile-card-wrap {
+      position: relative; z-index: 2;
+      padding-bottom: 0;
+    }
+    .profile-card {
+      background: white;
+      border-radius: 24px 24px 0 0;
+      padding: 40px 40px 0;
+      box-shadow: 0 -8px 48px rgba(11,37,69,0.18);
+      margin-top: 20px;
+    }
+    .profile-inner {
+      display: flex; gap: 36px; align-items: flex-start; flex-wrap: wrap;
+      padding-bottom: 40px; border-bottom: 1px solid var(--border);
+    }
+    .avatar-wrap { position: relative; flex-shrink: 0; }
+    .avatar {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 46px; border: 4px solid white;
+      box-shadow: 0 8px 32px rgba(14,169,155,0.25);
+    }
+    .avatar-badge {
+      position: absolute; bottom: 4px; right: -4px;
+      background: var(--teal); color: white;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: 20px; border: 2px solid white;
+      white-space: nowrap;
+    }
+    .profile-info { flex: 1; min-width: 200px; }
+    .profile-info h2 { font-size: 30px; color: var(--navy); margin-bottom: 4px; }
+    .profile-role {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; margin-top: 8px;
+    }
+    .role-pill {
+      background: var(--blue-lt); color: var(--blue);
+      font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
+    }
+    .role-pill.teal { background: var(--teal-lt); color: var(--teal); }
+    .profile-info p {
+      font-size: 14px; color: var(--muted); line-height: 1.8; font-weight: 300;
+      max-width: 540px; margin-bottom: 20px;
+    }
+    .social-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .social-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 500;
+      text-decoration: none; border: 1px solid var(--border);
+      color: var(--slate); background: var(--mist); transition: all 0.2s;
+    }
+    .social-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-lt); }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
+    .member-card {
+      background: var(--mist); border: 1px solid var(--border); border-radius: 18px;
+      padding: 22px; transition: all 0.25s; min-height: 190px;
+    }
+    .member-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 14px 34px rgba(26,111,196,0.1); }
+    .member-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .member-avatar {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      color: white; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 18px; flex-shrink: 0;
+    }
+    .member-card h4 { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+    .member-role { color: var(--teal); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+    .member-card p { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 0; }
+
+    /* ── Main content ── */
+    .main { background: white; }
+    .main-inner { max-width: 1000px; margin: 0 auto; padding: 0 40px 80px; }
+
+    /* ── Section titles ── */
+    .section-badge {
+      display: inline-block; background: var(--teal-lt);
+      color: var(--teal); font-size: 12px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .section-title { font-size: clamp(22px, 2.5vw, 32px); color: var(--navy); margin-bottom: 24px; }
+
+    /* ── Skills grid ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; }
+    .skill-card {
+      background: var(--mist); border: 1px solid var(--border);
+      border-radius: 16px; padding: 22px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .skill-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .skill-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,111,196,0.1); border-color: var(--teal); }
+    .skill-card:hover::before { transform: scaleX(1); }
+    .skill-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+    .skill-card h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .skill-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ── Role items ── */
+    .role-card {
+      background: var(--mist); border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+    }
+    .role-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 24px 28px; border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .role-item:last-child { border-bottom: none; }
+    .role-item:hover { background: rgba(14,169,155,0.03); }
+    .role-num {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      color: white; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .role-item h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .role-item p { font-size: 13px; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+    /* ── Quote ── */
+    .quote-box {
+      background: var(--navy); border-radius: 20px; padding: 36px 40px;
+      position: relative; overflow: hidden;
+    }
+    .quote-box::before {
+      content: '"'; position: absolute; top: -20px; left: 24px;
+      font-family: 'Playfair Display', serif; font-size: 160px; color: rgba(14,169,155,0.1);
+      line-height: 1;
+    }
+    .quote-box p {
+      font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic;
+      color: rgba(255,255,255,0.9); line-height: 1.75; position: relative; z-index: 1;
+      margin-bottom: 16px;
+    }
+    .quote-box span { font-size: 13px; color: var(--teal); font-weight: 600; font-style: normal; }
+
+    /* ── Tech stack ── */
+    .tech-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tech-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: white; border: 1px solid var(--border);
+      border-radius: 30px; padding: 8px 18px; font-size: 13px;
+      font-weight: 500; color: var(--slate); transition: all 0.2s;
+    }
+    .tech-pill:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-lt); }
+
+    /* ── CTA ── */
+    .cta-box {
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      border-radius: 20px; padding: 40px; text-align: center; color: white;
+    }
+    .cta-box h3 { font-size: 24px; margin-bottom: 10px; color: white; }
+    .cta-box p { font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 24px; font-weight: 300; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn-white {
+      background: white; color: var(--navy); padding: 12px 24px;
+      border-radius: 10px; font-weight: 600; font-size: 14px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); color: var(--navy); }
+    .cta-btn-outline {
+      background: transparent; color: white; padding: 12px 24px;
+      border-radius: 10px; font-weight: 500; font-size: 14px;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.4); transition: all 0.2s;
+    }
+    .cta-btn-outline:hover { background: rgba(255,255,255,0.12); color: white; }
+
+    /* ── Footer ── */
+    footer { background: var(--navy); padding: 60px 0 30px; color: rgba(255,255,255,0.5); }
+    .footer-brand { color: white; font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 10px; }
+    .footer-brand span { color: var(--teal); }
+    .footer-tagline { font-size: 14px; max-width: 280px; line-height: 1.7; }
+    .footer-heading { font-family: 'Playfair Display', serif; color: white; font-size: 16px; margin-bottom: 16px; }
+    .footer-link { display: block; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; margin-bottom: 8px; transition: color 0.2s; }
+    .footer-link:hover { color: var(--teal); }
+    .footer-divider { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; margin-top: 40px; }
+    .footer-copy { font-size: 13px; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1{animation-delay:.1s} .d2{animation-delay:.2s} .d3{animation-delay:.3s} .d4{animation-delay:.4s}
+
+    @media (max-width: 767px) {
+      .profile-card { padding: 28px 20px 0; }
+      .main-inner { padding: 0 20px 60px; }
+    }
+    @media (max-width: 768px) {
+  .hero {
+    padding: 56px 0 44px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary-custom,
+  .btn-outline-custom {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+}
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="brand-wrap" href="/">
+      <img class="brand-logo" src="../static/Medi-Assist_2.jpg" alt="Medi-Assist">
+      <span class="brand-name">Medi<span>-Assist</span></span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/developer">Developer</a></li>
+        <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+        <li class="nav-item ms-2"><a class="nav-link nav-cta" href="/chat">💬 MediBot Chat</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="col-lg-7 fade-up" style="position:relative;z-index:1;">
+      <div class="hero-badge">Meet the Team</div>
+      <h1>The People Behind<br><em>Medi-Assist</em></h1>
+      <p>Medi-Assist was built by a focused student team combining full-stack engineering, machine learning, backend systems, QA, data analysis, content, and NLP research.</p>
+    </div>
+
+    <!-- Profile Card starts inside hero -->
+    <div class="profile-card-wrap">
+      <div class="profile-card" style="max-width:100%">
+        <div class="profile-inner fade-up d1">
+          <div class="avatar-wrap">
+            <div class="avatar">MA</div>
+            <div class="avatar-badge">Team Built</div>
+          </div>
+          <div class="profile-info">
+            <h2>Medi-Assist Development Team</h2>
+            <div class="profile-role">
+              <span class="role-pill">Full Stack</span>
+              <span class="role-pill teal">Machine Learning</span>
+              <span class="role-pill">Data & QA</span>
+              <span class="role-pill teal">NLP Research</span>
+            </div>
+            <p>Our team built Medi-Assist as an AI-powered healthcare guidance platform that turns symptom descriptions into structured, understandable health information. The project brings together model training, Flask APIs, frontend design, multilingual chatbot logic, dataset preparation, testing, and research into one working application.</p>
+            <div class="social-links">
+              <a href="/chat" class="social-btn">Try MediBot</a>
+              <a href="/contact" class="social-btn">Contact Team</a>
+              <a href="/about" class="social-btn">About Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Main ── -->
+<div class="main">
+  <div style="max-width:1040px; margin:0 auto; padding:0;">
+
+    <!-- white continuation of profile card -->
+    <div style="background:white; padding: 0 40px;">
+
+      <!-- Stats row -->
+      <div style="display:flex; flex-wrap:wrap; gap:0; border-bottom:1px solid var(--border); margin-bottom:48px;" class="fade-up d2">
+        <div style="flex:1; min-width:140px; padding:24px 28px; border-right:1px solid var(--border); text-align:center;">
+          <div style="font-family:'Playfair Display',serif; font-size:32px; font-weight:800; color:var(--navy);">6<span style="color:var(--teal);">+</span></div>
+          <div style="font-size:13px; color:var(--muted); margin-top:4px;">Datasets Processed</div>
+        </div>
+        <div style="flex:1; min-width:140px; padding:24px 28px; border-right:1px solid var(--border); text-align:center;">
+          <div style="font-family:'Playfair Display',serif; font-size:32px; font-weight:800; color:var(--navy);">41<span style="color:var(--teal);">+</span></div>
+          <div style="font-size:13px; color:var(--muted); margin-top:4px;">Diseases Covered</div>
+        </div>
+        <div style="flex:1; min-width:140px; padding:24px 28px; border-right:1px solid var(--border); text-align:center;">
+          <div style="font-family:'Playfair Display',serif; font-size:32px; font-weight:800; color:var(--navy);">95<span style="color:var(--teal);">%</span></div>
+          <div style="font-size:13px; color:var(--muted); margin-top:4px;">Model Accuracy</div>
+        </div>
+        <div style="flex:1; min-width:140px; padding:24px 28px; text-align:center;">
+          <div style="font-family:'Playfair Display',serif; font-size:32px; font-weight:800; color:var(--navy);">3</div>
+          <div style="font-size:13px; color:var(--muted); margin-top:4px;">Languages Supported</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="padding: 0 40px 80px; background:white;" class="main-inner-custom">
+
+      <!-- Team -->
+      <div style="margin-bottom:60px;" class="fade-up">
+        <div class="section-badge">Team Members</div>
+        <h2 class="section-title">Who Built Medi-Assist</h2>
+        <div class="team-grid">
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">SD</div><div><h4>Sattwik Dhara</h4><div class="member-role">Full Stack & ML Engineer</div></div></div>
+            <p>Led the product build across frontend, Flask backend, model integration, Gemini fallback, safety checks, and overall system flow.</p>
+          </div>
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">SJ</div><div><h4>Sohan Jana</h4><div class="member-role">Full Stack Developer</div></div></div>
+            <p>Contributed to the web application structure, UI behavior, routing flow, and full-stack feature integration for a smooth user experience.</p>
+          </div>
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">SP</div><div><h4>Soumyadeep Polley</h4><div class="member-role">ML Engineer</div></div></div>
+            <p>Focused on the machine learning pipeline, symptom-to-disease prediction logic, model behavior, and evaluation quality.</p>
+          </div>
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">SM</div><div><h4>Souptik Mitra</h4><div class="member-role">Backend Developer</div></div></div>
+            <p>Worked on backend reliability, API structure, server-side logic, data response formatting, and application stability.</p>
+          </div>
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">S</div><div><h4>Siddharth</h4><div class="member-role">Data & QA</div></div></div>
+            <p>Handled dataset checking, validation workflows, result testing, edge-case review, and quality assurance for prediction outputs.</p>
+          </div>
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">SS</div><div><h4>Shamba Sen</h4><div class="member-role">Data Analyst</div></div></div>
+            <p>Analyzed dataset consistency, symptom coverage, data patterns, and report structure to support reliable health guidance.</p>
+          </div>
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">SG</div><div><h4>Sourav Grau</h4><div class="member-role">Content & QA</div></div></div>
+            <p>Refined content quality, user-facing wording, medical disclaimers, test cases, and presentation clarity across the platform.</p>
+          </div>
+          <div class="member-card">
+            <div class="member-top"><div class="member-avatar">SS</div><div><h4>Shirsendu Senapati</h4><div class="member-role">NLP & Research</div></div></div>
+            <p>Supported natural-language symptom understanding, research validation, multilingual considerations, and chatbot response quality.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Contributions -->
+      <div style="margin-bottom:60px;" class="fade-up d1">
+        <div class="section-badge">Project Contributions</div>
+        <h2 class="section-title">How the Work Came Together</h2>
+        <div class="role-card">
+          <div class="role-item">
+            <div class="role-num">1</div>
+            <div>
+              <h4>AI & Machine Learning</h4>
+              <p>The team trained and integrated a symptom-based disease prediction model, added confidence scoring, severity labels, and safety notes so the output feels clear and responsible.</p>
+            </div>
+          </div>
+          <div class="role-item">
+            <div class="role-num">2</div>
+            <div>
+              <h4>Full-Stack Application</h4>
+              <p>Frontend and backend work were combined into a Flask application with responsive pages, chatbot interaction, prediction APIs, contact flow, downloadable reports, and deployment-ready configuration.</p>
+            </div>
+          </div>
+          <div class="role-item">
+            <div class="role-num">3</div>
+            <div>
+              <h4>Data, QA & Content</h4>
+              <p>Dataset preparation, quality checks, content writing, and testing shaped the reliability of the experience, from symptom suggestions to medicines, precautions, diet, and workout guidance.</p>
+            </div>
+          </div>
+          <div class="role-item">
+            <div class="role-num">4</div>
+            <div>
+              <h4>NLP & Research</h4>
+              <p>Natural-language handling and research support improved how MediBot understands user messages, responds to general questions, and guides users toward safer health decisions.</p>
+            </div>
+          </div>
+          <div class="role-item">
+            <div class="role-num">5</div>
+            <div>
+              <h4>Safety First</h4>
+              <p>The app includes medical disclaimers, emergency message detection, and guidance to consult qualified professionals before making treatment decisions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div style="margin-bottom:60px;" class="fade-up d2">
+        <div class="section-badge">Technology Stack</div>
+        <h2 class="section-title">Built With</h2>
+        <div class="tech-wrap">
+          <div class="tech-pill">🐍 Python 3</div>
+          <div class="tech-pill">🌶️ Flask</div>
+          <div class="tech-pill">🤖 Scikit-learn (SVC)</div>
+          <div class="tech-pill">🔢 NumPy</div>
+          <div class="tech-pill">📊 Pandas</div>
+          <div class="tech-pill">🎨 Bootstrap 5</div>
+          <div class="tech-pill">📦 Pickle</div>
+          <div class="tech-pill">🌐 Gunicorn</div>
+          <div class="tech-pill">☁️ Render.com</div>
+          <div class="tech-pill">✉️ Gmail SMTP</div>
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div style="margin-bottom:60px;" class="fade-up d2">
+        <div class="quote-box">
+          <p>"Medi-Assist is our attempt to make first-level health guidance clearer, faster, and more accessible. The goal is not to replace doctors, but to help people understand symptoms better and take informed next steps."</p>
+          <span>- Medi-Assist Development Team</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-box fade-up d3">
+        <h3>Interested in Collaborating?</h3>
+        <p>Whether you are a healthcare professional, developer, student, or researcher, the team is open to feedback that can make Medi-Assist safer, smarter, and more useful.</p>
+        <div class="cta-btns">
+          <a href="/contact" class="cta-btn-white">📬 Get in Touch</a>
+          <a href="/about" class="cta-btn-outline">Learn About the Project →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand">Medi<span>-Assist</span></div>
+        <p class="footer-tagline">AI-powered health guidance built to make medical information accessible to everyone — regardless of location or income.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Platform</div>
+        <a href="/" class="footer-link">Home</a>
+        <a href="/chat" class="footer-link">MediBot Chat</a>
+        <a href="/about" class="footer-link">About</a>
+        <a href="/blog" class="footer-link">Blog</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Connect</div>
+        <a href="/contact" class="footer-link">Contact Us</a>
+        <a href="/developer" class="footer-link">Developer</a>
+        <a href="#" class="footer-link">GitHub</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Emergency?</div>
+        <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">For medical emergencies in India, call national emergency services immediately.</p>
+        <a href="tel:108" style="display:inline-flex; align-items:center; gap:8px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#fca5a5; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:600; font-size:14px;">📞 Call 108 — Emergency</a>
+      </div>
+    </div>
+    <div class="footer-divider">
+      <div class="row align-items-center">
+        <div class="col-md-6 footer-copy">© 2025 Medi-Assist · Developed by the Medi-Assist Team · Kolkata, India</div>
+        <div class="col-md-6 text-md-end footer-copy" style="margin-top:8px;">Not a substitute for professional medical advice.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  (function fixLocalPreviewLinks() {
+    const host = window.location.hostname;
+    const isLocalHost = host === '127.0.0.1' || host === 'localhost';
+    const isFlaskServer = isLocalHost && window.location.port === '5000';
+    const isLocalPreview = window.location.protocol === 'file:' ||
+      (isLocalHost && window.location.port !== '5000');
+
+    if (!isFlaskServer && isLocalPreview) {
+      document.querySelectorAll('a[href^="/"]').forEach(link => {
+        link.href = 'http://127.0.0.1:5000' + link.getAttribute('href');
+      });
+    }
+  })();
+</script>
+</body>
+</html>

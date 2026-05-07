@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="../static/Medi-Assist_2.jpg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ 'Sign Up' if mode == 'signup' else 'Login' }} - Medi-Assist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:#1a6fc4; --teal:#0ea99b; --navy:#0b2545; --mist:#f4f8fc;
+      --border:#d6e4f0; --text:#1e3a52; --muted:#6b8299; --danger:#dc2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text);
+      background: linear-gradient(135deg, var(--navy), #1a3a5c 55%, #0b4a6f);
+      display: grid; place-items: center; padding: 24px;
+    }
+    .auth-card {
+      width: min(440px, 100%); background: white; border: 1px solid var(--border);
+      border-radius: 18px; padding: 34px; box-shadow: 0 24px 70px rgba(0,0,0,0.22);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-bottom: 28px; }
+    .brand img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--teal); object-fit: cover; }
+    .brand span { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 800; color: var(--navy); }
+    h1 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 34px; margin-bottom: 8px; }
+    .sub { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+    input {
+      width: 100%; border: 1px solid var(--border); background: var(--mist); border-radius: 10px;
+      padding: 13px 14px; font: inherit; color: var(--text); outline: none;
+    }
+    input:focus { border-color: var(--teal); background: white; box-shadow: 0 0 0 3px rgba(14,169,155,0.1); }
+    .error {
+      background: #fef2f2; border: 1px solid #fecaca; color: var(--danger);
+      border-radius: 10px; padding: 11px 13px; font-size: 13px; margin-bottom: 16px;
+    }
+    button {
+      width: 100%; border: none; border-radius: 10px; padding: 14px 16px; cursor: pointer;
+      background: linear-gradient(135deg, var(--blue), var(--teal)); color: white;
+      font-weight: 800; font-size: 15px; margin-top: 6px;
+    }
+    .switch { text-align: center; margin-top: 20px; color: var(--muted); font-size: 14px; }
+    .switch a { color: var(--teal); font-weight: 800; text-decoration: none; }
+    .back { display: block; text-align: center; color: rgba(255,255,255,0.78); margin-top: 18px; text-decoration: none; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="auth-card">
+      <a class="brand" href="/">
+        <img src="../static/Medi-Assist_2.jpg" alt="Medi-Assist">
+        <span>Medi-Assist</span>
+      </a>
+
+      {% if mode == 'signup' %}
+        <h1>Create Account</h1>
+        <p class="sub">Sign up to use MediBot, save your chat history, and upload prescriptions or medical photos.</p>
+      {% else %}
+        <h1>Welcome Back</h1>
+        <p class="sub">Log in to continue your saved MediBot conversations and prescription uploads.</p>
+      {% endif %}
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <form method="post">
+        {% if mode == 'signup' %}
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" autocomplete="name" required>
+          </div>
+        {% endif %}
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" autocomplete="{{ 'new-password' if mode == 'signup' else 'current-password' }}" required>
+        </div>
+        <button type="submit">{{ 'Create Account' if mode == 'signup' else 'Login' }}</button>
+      </form>
+
+      <div class="switch">
+        {% if mode == 'signup' %}
+          Already have an account? <a href="/login">Login</a>
+        {% else %}
+          New to Medi-Assist? <a href="/signup">Create an account</a>
+        {% endif %}
+      </div>
+    </div>
+    <a class="back" href="/">Back to home</a>
+  </div>
+</body>
+</html>
