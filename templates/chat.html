@@ -100,7 +100,7 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--mist); color: var(--text); display: flex; flex-direction: column; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--mist); color: var(--text); display: flex; flex-direction: column; min-height: 100vh;}
 
     /* ── Topbar ── */
     .topbar {
@@ -146,11 +146,16 @@
     .lang-select:focus { outline: none; border-color: var(--teal); }
 
     /* ── Chat area ── */
-    .chat-wrap {
-      flex: 1; overflow-y: auto; padding: 24px 20px;
-      display: flex; flex-direction: column; gap: 18px;
-      scroll-behavior: smooth;
-    }
+.chat-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  scroll-behavior: smooth;
+}
     .chat-wrap::-webkit-scrollbar { width: 4px; }
     .chat-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
