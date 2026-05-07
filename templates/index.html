@@ -10,6 +10,31 @@
   <link rel="icon" type="image/png" href="../static/Medi-Assist_2.jpg">
   <style>
     @media (max-width: 768px) {
+  .hero-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-btns a,
+  .hero-btns button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+    .hero-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+    * {
+  box-sizing: border-box;
+}
+    html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+    @media (max-width: 768px) {
   .hero {
     padding: 56px 0 44px;
   }
