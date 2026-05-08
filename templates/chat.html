@@ -693,25 +693,32 @@ let lastConfidence = null;
 let currentConvoId = null;
 let conversations = {};
 let uploadStripOpen = false;
+let KEY_CONVOS = 'medi_conversations';
+let KEY_LANG   = 'medi_lang';
+let KEY_LAST   = 'medi_last_convo';
 
 // ── Init from localStorage ────────────────────────────────────────────────────
 function init() {
+   const userEmail = document.getElementById('sidebarEmail')?.textContent?.trim() || 'guest';
+  KEY_CONVOS = `medi_conversations_${userEmail}`;
+  KEY_LANG   = `medi_lang_${userEmail}`;
+  KEY_LAST   = `medi_last_convo_${userEmail}`;
   try {
-    const saved = localStorage.getItem('medi_conversations');
+    const saved = localStorage.getItem(KEY_CONVOS);
     if (saved) conversations = JSON.parse(saved);
   } catch(e) { conversations = {}; }
 
   renderHistory();
   setAvatarInitial();
 
-  const savedLang = localStorage.getItem('medi_lang');
+  const savedLang = localStorage.getItem(KEY_LANG);
   if (savedLang) document.getElementById('langSelect').value = savedLang;
 
   document.getElementById('langSelect').addEventListener('change', () => {
-    localStorage.setItem('medi_lang', getLang());
+    localStorage.setItem(KEY_LANG, getLang());
   });
 
-  const lastId = localStorage.getItem('medi_last_convo');
+  const lastId = localStorage.getItem(KEY_LAST);
   if (lastId && conversations[lastId]) {
     loadConversation(lastId);
   }
@@ -743,7 +750,7 @@ function genId() {
 }
 
 function saveConversations() {
-  try { localStorage.setItem('medi_conversations', JSON.stringify(conversations)); } catch(e) {}
+  try { localStorage.setItem(KEY_CONVOS, JSON.stringify(conversations)); } catch(e) {}
 }
 
 function newChat() {
@@ -794,7 +801,7 @@ function loadConversation(id) {
   const sugRow = document.getElementById('suggestionsRow');
   sugRow.style.display = lastDisease ? 'flex' : 'none';
 
-  localStorage.setItem('medi_last_convo', id);
+  localStorage.setItem(KEY_LAST, id);
   scrollBottom();
   renderHistory();
 }
@@ -980,7 +987,7 @@ function saveMessage(text, role, diseaseHint) {
   }
   saveConversations();
   renderHistory();
-  localStorage.setItem('medi_last_convo', currentConvoId);
+  localStorage.setItem(KEY_LAST, currentConvoId);
 }
 
 // ── Send message ──────────────────────────────────────────────────────────────
