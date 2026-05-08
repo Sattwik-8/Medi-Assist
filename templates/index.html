@@ -766,54 +766,64 @@
     document.getElementById('report-actions').style.display = 'none';
     const t0 = Date.now();
 
-    fetch(getPredictUrl(), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ symptoms })
-    })
-    .then(r => r.json())
-    .then(data => {
-      const delay = Math.max(0, 1200 - (Date.now() - t0));
-      setTimeout(() => {
-        document.getElementById('loader').style.display = 'none';
-        if (data.error) {
-          const wb = document.getElementById('warn-box');
-          wb.innerHTML = escapeHtml(data.error);
-          wb.style.display = 'block';
-          if (!data.emergency) alert('Error: ' + data.error);
-          return;
-        }
+fetch(getPredictUrl(), {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ symptoms })
+})
+.then(async (r) => {
+  const data = await r.json().catch(() => ({}));
 
-        if (data.unrecognized && data.unrecognized.length) {
-          const wb = document.getElementById('warn-box');
-          wb.innerHTML = `⚠️ Skipped unrecognized symptoms: <strong>${data.unrecognized.join(', ')}</strong>`;
-          wb.style.display = 'block';
-        }
+  if (!r.ok) {
+    throw new Error(data.error || `HTTP ${r.status}`);
+  }
 
-        document.getElementById('conf-fill').style.width = (data.confidence || 0) + '%';
-        document.getElementById('conf-label').textContent = (data.confidence || 0) + '% confidence';
+  return data;
+})
+.then(data => {
+  const delay = Math.max(0, 1200 - (Date.now() - t0));
+  setTimeout(() => {
+    document.getElementById('loader').style.display = 'none';
 
-        resultData = {
-          disease: data.disease || 'Unknown',
-          confidence: (data.confidence || 'N/A') + '%',
-          severity: data.severity || '',
-          confidence_note: data.confidence_note || '',
-          description: data.description || 'No description available.',
-          precautions: data.precautions ? '• ' + data.precautions.filter(Boolean).map(escapeHtml).join('<br>• ') : 'No data.',
-          medication: data.medication ? '• ' + data.medication.map(escapeHtml).join('<br>• ') + '<br><br><strong>Important:</strong> Consult a doctor or pharmacist before taking any medicine.' : 'No data.',
-          workout: data.workout ? '• ' + data.workout.map(escapeHtml).join('<br>• ') : 'No data.',
-          diet: data.diet ? '• ' + data.diet.map(escapeHtml).join('<br>• ') : 'No data.'
-        };
+    if (data.error) {
+      const wb = document.getElementById('warn-box');
+      wb.innerHTML = escapeHtml(data.error);
+      wb.style.display = 'block';
+      if (!data.emergency) alert('Error: ' + data.error);
+      return;
+    }
 
-        document.getElementById('results-section').style.display = 'block';
-        document.getElementById('report-actions').style.display = 'block';
-        showResult('disease', document.querySelector('.result-card'));
-      }, delay);
-    })
-    .catch(() => {
-      document.getElementById('loader').style.display = 'none';
-      alert('Connection error. Start the Flask app and open http://127.0.0.1:5000, then try again.');
-    });
+    if (data.unrecognized && data.unrecognized.length) {
+      const wb = document.getElementById('warn-box');
+      wb.innerHTML = `⚠️ Skipped unrecognized symptoms: <strong>${data.unrecognized.join(', ')}</strong>`;
+      wb.style.display = 'block';
+    }
+
+    document.getElementById('conf-fill').style.width = (data.confidence || 0) + '%';
+    document.getElementById('conf-label').textContent = (data.confidence || 0) + '% confidence';
+
+    resultData = {
+      disease: data.disease || 'Unknown',
+      confidence: (data.confidence || 'N/A') + '%',
+      severity: data.severity || '',
+      confidence_note: data.confidence_note || '',
+      description: data.description || 'No description available.',
+      precautions: data.precautions ? '• ' + data.precautions.filter(Boolean).map(escapeHtml).join('<br>• ') : 'No data.',
+      medication: data.medication ? '• ' + data.medication.map(escapeHtml).join('<br>• ') + '<br><br><strong>Important:</strong> Consult a doctor or pharmacist before taking any medicine.' : 'No data.',
+      workout: data.workout ? '• ' + data.workout.map(escapeHtml).join('<br>• ') : 'No data.',
+      diet: data.diet ? '• ' + data.diet.map(escapeHtml).join('<br>• ') : 'No data.'
+    };
+
+    document.getElementById('results-section').style.display = 'block';
+    document.getElementById('report-actions').style.display = 'block';
+    showResult('disease', document.querySelector('.result-card'));
+  }, delay);
+})
+.catch((err) => {
+  document.getElementById('loader').style.display = 'none';
+  console.error('Predict error:', err);
+  alert(err.message || 'Something went wrong on the server.');
+});
   }
 
   document.getElementById('symptoms').addEventListener('keydown', function(e) {
