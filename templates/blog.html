@@ -8,6 +8,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    .blog-card-footer a.arrow {
+  text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--teal-lt); color: var(--teal);
+  transition: all 0.2s;
+}
+.blog-card:hover .blog-card-footer a.arrow {
+  background: var(--teal); color: white;
+}
     html, body {
   width: 100%;
   overflow-x: hidden;
@@ -334,7 +344,7 @@
         </div>
         <h2>How We Built a Disease Predictor Using Support Vector Machines</h2>
         <p>A deep dive into the model architecture behind Medi-Assist — how we encoded 132 symptoms into binary vectors, trained an SVC classifier across 41 disease categories, and achieved 95%+ accuracy on a medical dataset. We also discuss the challenges of handling imbalanced classes and why we chose SVM over alternatives like Random Forest and XGBoost.</p>
-        <a href="#" class="read-more-btn">Read Full Article →</a>
+        <a href="#" class="read-more-btn">Read Full Article →</a><a href="https://link.springer.com/chapter/10.1007/978-981-16-9705-0_59" target="_blank" class="read-more-btn">Read Full Article →</a>
       </div>
     </div>
   </div>
@@ -363,10 +373,10 @@
             <h3>10 Symptoms You Should Never Ignore</h3>
           </div>
           <p>From chest pain to sudden vision changes — these warning signs require immediate medical attention. Learn what your body might be trying to tell you.</p>
-          <div class="blog-card-footer">
-            <span>📅 April 2025</span>
-            <div class="arrow">→</div>
-          </div>
+         <div class="blog-card-footer">
+  <span>📅 April 2025</span>
+  <a href="https://health.ucsd.edu/news/features/10-symptoms-to-never-ignore/" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -381,10 +391,10 @@
             <h3>Drug Interactions: What Happens When Medicines Mix</h3>
           </div>
           <p>Understanding dangerous drug combinations that millions unknowingly take every day — and how AI can help flag risks before they happen.</p>
-          <div class="blog-card-footer">
-            <span>📅 March 2025</span>
-            <div class="arrow">→</div>
-          </div>
+        <div class="blog-card-footer">
+  <span>📅 March 2025</span>
+  <a href="https://www.healthline.com/health/drug-interactions" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -399,10 +409,10 @@
             <h3>The Future of AI Diagnostics in Rural India</h3>
           </div>
           <p>With 70% of India living in rural areas and a severe shortage of doctors, AI-powered diagnostic tools could transform how healthcare is delivered.</p>
-          <div class="blog-card-footer">
-            <span>📅 March 2025</span>
-            <div class="arrow">→</div>
-          </div>
+        <div class="blog-card-footer">
+  <span>📅 March 2025</span>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9700158/" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -417,10 +427,10 @@
             <h3>Cleaning Medical Datasets: Lessons From Building Medi-Assist</h3>
           </div>
           <p>Medical data is messy. Here's how we cleaned 6 CSV files, handled missing values, standardized disease names, and built a reliable prediction pipeline.</p>
-          <div class="blog-card-footer">
-            <span>📅 February 2025</span>
-            <div class="arrow">→</div>
-          </div>
+         <div class="blog-card-footer">
+  <span>📅 February 2025</span>
+  <a href="https://towardsdatascience.com/data-cleaning-in-python-the-ultimate-guide-2024/" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -436,9 +446,9 @@
           </div>
           <p>We tested both algorithms on our symptom dataset. A transparent comparison of accuracy, speed, interpretability, and real-world suitability.</p>
           <div class="blog-card-footer">
-            <span>📅 January 2025</span>
-            <div class="arrow">→</div>
-          </div>
+  <span>📅 January 2025</span>
+  <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4058169/" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -454,9 +464,9 @@
           </div>
           <p>CPR, choking response, burn treatment, controlling bleeding, and managing fainting — simple skills that can save a life before the ambulance arrives.</p>
           <div class="blog-card-footer">
-            <span>📅 December 2024</span>
-            <div class="arrow">→</div>
-          </div>
+  <span>📅 December 2024</span>
+  <a href="https://www.redcross.org/take-a-class/first-aid/performing-first-aid/first-aid-steps" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -472,9 +482,9 @@
           </div>
           <p>How we added Hindi and Bengali support to MediBot — and why language accessibility is one of the most underrated challenges in building medical AI for India.</p>
           <div class="blog-card-footer">
-            <span>📅 November 2024</span>
-            <div class="arrow">→</div>
-          </div>
+  <span>📅 November 2024</span>
+  <a href="https://ai.google/research/pubs/pub49029" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -490,9 +500,9 @@
           </div>
           <p>A thoughtful exploration of where AI medical tools help and where they fall short — and why transparency, disclaimers, and human oversight still matter deeply.</p>
           <div class="blog-card-footer">
-            <span>📅 October 2024</span>
-            <div class="arrow">→</div>
-          </div>
+  <span>📅 October 2024</span>
+  <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8285156/" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
@@ -508,9 +518,9 @@
           </div>
           <p>Instead of plain binary encoding, we weighted each symptom by its clinical severity score — and here's the measurable difference it made to prediction quality.</p>
           <div class="blog-card-footer">
-            <span>📅 September 2024</span>
-            <div class="arrow">→</div>
-          </div>
+  <span>📅 September 2024</span>
+  <a href="https://arxiv.org/abs/2302.12075" target="_blank" class="arrow">→</a>
+</div>
         </div>
       </div>
 
