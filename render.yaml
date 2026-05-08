@@ -20,3 +20,31 @@ services:
       - key: FLASK_DEBUG
         value: false
     healthCheckPath: /
+    services:
+  - type: web
+    name: medi-assist
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app --workers 2 --timeout 120 --bind 0.0.0.0:$PORT
+    disk:
+      name: medi-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: CONTACT_RECIPIENT
+        value: sattwikdhara70@gmail.com
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash-lite
+      - key: FLASK_DEBUG
+        value: false
+    healthCheckPath: /

@@ -32,10 +32,10 @@ _model_mod.severity_map = _data_mod.severity_map
 # ── Flask app ─────────────────────────────────────────────────────────────────
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-change-me')
-app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'uploads')
+app.config['UPLOAD_FOLDER'] = os.path.join(os.environ.get('DATA_DIR', app.root_path), 'uploads')
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
 
-DB_PATH = os.path.join(app.root_path, 'medi_assist.db')
+DB_PATH = os.path.join(os.environ.get('DATA_DIR', app.root_path), 'medi_assist.db')
 ALLOWED_UPLOADS = {'png', 'jpg', 'jpeg', 'webp', 'pdf'}
 
 
